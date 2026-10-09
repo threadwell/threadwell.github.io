@@ -1,0 +1,22 @@
+# Threadwell — updatable spam block-rule feed
+#
+# Fetched by the app at most once a day from https://threadwell.github.io/spam-feed.txt,
+# so edits here take effect without a new app release (edit it in the website repo). One rule per line;
+# everything after '#' is a comment. A hit is a confident, reportable signal.
+#
+# Rule types:
+#   domain:<host>            link to this host or any subdomain
+#   sender:<address>         exact sender; trailing '*' matches a prefix
+#   keyword:<text>           case-insensitive substring of the message
+#   regex:<java regex>       matched against the raw message body
+#
+# ---------------------------------------------------------------------------
+
+# Recurring mortgage / "home warranty" smish from rotating shortcodes
+domain:r.dcmg.com
+sender:60107
+keyword:home warranty has expired
+keyword:your home warranty
+
+# Classic package-redelivery smish wording
+regex:(?i)\b(usps|fedex|ups)\b.{0,40}\b(address is incomplete|redelivery|reschedule)\b
