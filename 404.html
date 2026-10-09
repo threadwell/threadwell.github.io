@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Page not found · Threadwell</title>
+  <meta name="robots" content="noindex">
+  <meta name="theme-color" content="#F4F2EB">
+  <!-- GitHub Pages serves this file for any unknown address, at any depth, so nothing here uses relative paths:
+       the styles are inline and every link is built from SITE_ROOT below.
+       SITE_ROOT is the project path GitHub Pages serves this repository from (the threadwell.github.io repository). Change it if the site moves to its own domain. -->
+  <style>
+    :root { --bg: #f4f2eb; --panel: #faf9f4; --panel-2: #e6ecdf; --line: #d3d9cd; --text: #153c35; --muted: #536c63; --accent: #215e4c; --on-accent: #fffef7; --lime: #28d7c9; --ease: cubic-bezier(0.32, 0.72, 0, 1); }
+    * { box-sizing: border-box; }
+    html { color-scheme: light; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 400 16px/24px system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+    main { max-width: 680px; margin: 0 auto; padding: 64px 16px 80px; }
+    .mark { width: 64px; height: 64px; border-radius: 16px; display: block; }
+    h1 { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: 44px; line-height: 48px; letter-spacing: -1.2px; margin: 24px 0 12px; text-wrap: balance; }
+    p { color: var(--muted); font-size: 18px; line-height: 28px; text-wrap: pretty; margin: 0; }
+    .btn { display: inline-block; margin-top: 24px; background: var(--accent); color: var(--on-accent); border-radius: 999px; padding: 8px 16px; min-height: 40px; line-height: 24px; font-weight: 600; text-decoration: none; transition: transform .2s var(--ease); }
+    .btn:active { transform: scale(0.98); }
+    h2 { font-size: 12px; line-height: 16px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 48px 0 8px; font-weight: 600; }
+    ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 4px; }
+    li a { display: block; padding: 8px 12px; min-height: 40px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); color: var(--text); text-decoration: none; font-size: 14px; line-height: 20px; }
+    li a:hover { background: var(--panel-2); border-color: var(--accent); }
+    :focus-visible { outline: 3px solid #be552e; outline-offset: 3px; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <main>
+    <svg class="mark" viewBox="0 0 108 108" role="img" aria-label="Threadwell"><rect width="108" height="108" rx="24" fill="#0b1f3a"/>
+      <g transform="translate(54 57) scale(0.62) translate(-54 -54)" fill="none" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M61,31h15c10,0 17,7 17,17v7c0,10 -7,17 -17,17h-9l9,9" stroke="#ff6b5c"/>
+        <path d="M47,23h-16c-10,0 -17,7 -17,17v7c0,10 7,17 17,17h10l-10,9M47,23c9,0 16,7 16,17v7" stroke="#28d7c9"/>
+        <path d="M51,49c2,9 8,14 17,16" stroke="#ff6b5c"/></g></svg>
+    <h1>That page is not here</h1>
+    <p>The link may be old or mistyped. Start from the beginning, or try Threadwell in your browser.</p>
+    <a class="btn" id="home" href="/">Go to the Threadwell home page</a> <a class="btn" id="play" href="#explore" style="background:transparent;color:var(--text);border:1px solid var(--accent)">Explore Threadwell</a>
+
+    <h2>Or ask a specific question</h2>
+    <ul id="list">
+      <li><a href="#layout">Switch between Traditional and Threadwell view</a></li>
+      <li><a href="#text-size">Make message text bigger or smaller</a></li>
+      <li><a href="#photos">Send several photos at once</a></li>
+      <li><a href="#themes">Change the theme and make it yours</a></li>
+      <li><a href="#spam-rules">Add my own spam rule</a></li>
+      <li><a href="#threadmarks">Save a message to a Space</a></li>
+      <li><a href="#threads-to-tend">Come back to something later</a></li>
+    </ul>
+  </main>
+  <script>
+    // The public path of the site. Use "/" if it is ever served from the root of its own domain.
+    var SITE_ROOT = "/";
+    document.getElementById("home").setAttribute("href", SITE_ROOT);
+    document.getElementById("play").setAttribute("href", SITE_ROOT + "#explore");
+    document.querySelectorAll("#list a").forEach(function (a) { a.setAttribute("href", SITE_ROOT + a.getAttribute("href")); });
+  </script>
+</body>
+</html>

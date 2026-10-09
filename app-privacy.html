@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threadwell app privacy policy</title>
+  <meta name="description" content="What the Threadwell Android app reads, stores and sends. No accounts, no analytics, no developer servers. Your messages never go to the developer.">
+  <meta name="theme-color" content="#f4f2eb">
+    <link rel="canonical" href="https://threadwell.github.io/app-privacy.html">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Threadwell">
+  <meta property="og:title" content="Threadwell app privacy policy">
+  <meta property="og:description" content="No accounts, no analytics, no developer servers. Your messages never go to the developer.">
+  <meta property="og:image" content="https://threadwell.github.io/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+    .doc h1 { font-size: 36px; line-height: 40px; margin-bottom: 12px; }
+    .doc h2 { font-size: 20px; line-height: 28px; margin: 40px 0 8px; }
+    .doc p, .doc li, .doc td { color: #c9d6e8; }
+    .doc ul { padding-left: 24px; display: grid; gap: 8px; }
+    .doc .meta { color: var(--muted); font-size: 14px; }
+    .doc .back { display: inline-block; margin-bottom: 24px; }
+    .summary { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 24px; }
+    .summary ul { margin: 8px 0 0; }
+    .tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; margin-top: 12px; }
+    table { border-collapse: collapse; width: 100%; min-width: 620px; font-size: 14px; line-height: 20px; }
+    th, td { text-align: left; vertical-align: top; padding: 12px; border-bottom: 1px solid var(--line); }
+    th { background: var(--panel-2); color: var(--text); font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+  </style>
+  <link rel="stylesheet" href="site-shell.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the content</a>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Threadwell help home"><img class="mark" src="assets/mark.svg" alt="" width="32" height="32"><span>Threadwell</span></a>
+    <p class="tag">Help &amp; demos</p>
+  </header>
+  <main class="doc" id="main">
+    <a class="back" href="./">&larr; Back to the questions</a>
+    <h1>Threadwell app privacy policy</h1>
+    <p class="meta">Last updated 6 October 2026. This policy covers the Threadwell Android app. For this website, see the <a href="privacy.html">website privacy page</a>.</p>
+
+    <div class="summary">
+      <strong>In short</strong>
+      <ul>
+        <li>No accounts, no analytics, no ads and no developer-run servers.</li>
+        <li>Your messages and contacts stay on your phone and are never sent to the developer.</li>
+        <li>Anything that does reach the internet is listed below, and the optional parts are off until you turn them on.</li>
+      </ul>
+    </div>
+
+    <h2>What the app handles on your phone</h2>
+    <ul>
+      <li><strong>Messages and contacts.</strong> Threadwell is a text messaging app. It reads and writes Android's SMS and MMS storage and reads your contacts, on your device only, to show and send conversations. Spam scoring runs on your device.</li>
+      <li><strong>Phone state and number.</strong> Optionally read to label SIMs and to recognize your own number in group threads.</li>
+      <li><strong>Calendar.</strong> Read on your device only if you use a calendar widget, to show your events.</li>
+      <li><strong>Location.</strong> Only if you choose to share your location in a conversation, or turn on <em>Use my location</em> for the Weather theme or widget. A shared location goes to the person you choose. Weather uses approximate coordinates.</li>
+      <li><strong>App data.</strong> Settings, drafts, scheduled messages, the picture message retry queue, Spaces and notes, and spam statistics are stored in the app's private storage on your phone.</li>
+    </ul>
+
+    <h2>What can leave your phone</h2>
+    <p>These are every outside service the app can contact. None of them receive your message text or phone numbers.</p>
+    <div class="tablewrap" role="region" aria-label="Outside services the app can contact" tabindex="0">
+      <table>
+        <thead><tr><th scope="col">Service</th><th scope="col">Feature</th><th scope="col">What is sent</th><th scope="col">When</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Open-Meteo</th><td>Weather theme and widget</td><td>A city name once, then approximate coordinates hourly</td><td>Weather is turned on</td></tr>
+          <tr><th scope="row">Zippopotam.us</th><td>Weather location</td><td>The 5 digit ZIP code you type, once, to find its coordinates</td><td>You enter a ZIP code</td></tr>
+          <tr><th scope="row">ESPN</th><td>Sports widget</td><td>Team IDs</td><td>The widget is turned on</td></tr>
+          <tr><th scope="row">Yahoo Finance</th><td>Watchlist widget</td><td>Ticker symbols</td><td>The widget is turned on</td></tr>
+          <tr><th scope="row">GitHub (raw file)</th><td>Spam rule feed</td><td>Nothing. The app downloads a public rules file from this project's repository</td><td>About once a day</td></tr>
+          <tr><th scope="row">The website you link to, and YouTube thumbnails</th><td>Link previews</td><td>A request for the linked page, which shows that website your phone's IP address. Skipped for messages flagged as spam. Local and private addresses are blocked</td><td>Only if you turn on link previews. <strong>Off by default</strong></td></tr>
+          <tr><th scope="row">Google (Gemini)</th><td>AI image edit</td><td>The image you choose and your prompt, using your own key</td><td>Only if you add a key and use the feature. <strong>Off by default</strong></td></tr>
+          <tr><th scope="row">Unsplash</th><td>Photo backdrops</td><td>Your search terms, using your own key</td><td>When you search for backdrop photos</td></tr>
+          <tr><th scope="row">Your carrier (7726)</th><td>Spam reporting</td><td>The text of a message the app has confidently classified as spam, sent as an ordinary text message on your plan. It appears in your sent messages</td><td>Only if you turn on automatic reporting, or report a message yourself. <strong>Off by default</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:12px">These services have their own privacy practices. The app has no analytics, no ad software and no remote crash reporting.</p>
+
+    <h2>Your keys</h2>
+    <p>Keys you add for optional features (Gemini, Unsplash) are kept in the app's private storage on your phone. They are never included in backups or phone to phone transfers.</p>
+
+    <h2>Backups and moving to a new phone</h2>
+    <p>Threadwell sends nothing to cloud backup. If you move to a new phone with Android's direct phone to phone transfer, no server is involved, and these come along: your settings, drafts, spam history and learning, and your Spaces and notes. Keys, scheduled messages and the retry queue never do. Your messages themselves follow Android's own text message backup, not Threadwell's.</p>
+    <p>Threadwell can also create a backup file or a text export, but only when you ask, and it saves it where you choose (exports go to <em>Downloads/Threadwell</em>). These files contain your messages, so keep them somewhere safe. If a phone is lost or wiped and there is no second device, Threadwell's own settings and Spaces are lost with it, so use the backup file if you want a copy.</p>
+
+    <h2>Sharing and temporary copies</h2>
+    <p>When you share a photo, Threadwell makes a temporary copy so another app can read it. These copies are cleared automatically after about an hour, and you can clear them yourself.</p>
+
+    <h2>Logs and crash reports</h2>
+    <p>Threadwell does not log message text. Crash reports are created on your phone, with quoted text and phone numbers removed, and stay there unless you choose to share one. If you send a bug report, it includes basic device information (app version, Android version and device model).</p>
+
+    <h2>Your choices</h2>
+    <ul>
+      <li>Everything optional above is controlled in the app, and you can turn it off at any time.</li>
+      <li>In <strong>Settings → Privacy &amp; data</strong> you can clear downloaded data (previews, widget caches, shared files) and delete crash reports. Clearing caches never touches your messages, Spaces or notes.</li>
+      <li>Uninstalling the app removes its private data. Backup files and exports you saved yourself stay where you put them until you delete them.</li>
+    </ul>
+
+    <h2>Sharing and retention</h2>
+    <p>The developer collects nothing and shares nothing. Data stays on your device until you delete it or uninstall the app. Spam statistics are removed automatically as they age.</p>
+
+    <h2>Changes</h2>
+    <p>If this policy changes, the date at the top will change with it.</p>
+
+    <h2>Contact</h2>
+    <p>Email <a href="mailto:support.threadwell@gmail.com">support.threadwell@gmail.com</a>, or use <strong>Settings → Help &amp; advanced → Contact support</strong> in the app.</p>
+  </main>
+</body>
+</html>

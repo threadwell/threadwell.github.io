@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threadwell: keep the messages that matter within reach</title>
+  <meta name="description" content="Threadwell is a texting app for Android that keeps your threads, plans, checklists and follow-ups within reach. Try an interactive playground in your browser, with sample messages and nothing sent.">
+  <meta name="theme-color" content="#f4f2eb">
+    <link rel="canonical" href="https://threadwell.github.io/">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Threadwell">
+  <meta property="og:title" content="Threadwell: keep the messages that matter within reach">
+  <meta property="og:description" content="A texting app for Android. Try making a checklist, changing the theme or exploring Spaces in an interactive browser playground.">
+  <meta property="og:image" content="https://threadwell.github.io/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="The Threadwell woven speech bubble mark beside the words Threadwell, keep the messages that matter within reach">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Threadwell: keep the messages that matter within reach">
+  <meta name="twitter:description" content="A texting app for Android. Try an interactive playground in your browser.">
+  <meta name="twitter:image" content="https://threadwell.github.io/assets/og-image.png">
+
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="landing.css">
+  <link rel="stylesheet" href="site-shell.css">
+</head>
+<body>
+  <a class="skip" href="#stage">Skip to the main content</a>
+
+  <header class="top">
+    <a class="brand" href="#home" aria-label="Threadwell help home">
+      <img class="mark" src="assets/mark.svg" alt="" width="32" height="32">
+      <span>Threadwell</span>
+    </a>
+    <p class="tag">Playground &amp; help</p><nav class="site-nav" aria-label="Main navigation"><a class="nav-home" href="#home">Meet Threadwell</a><a href="#guided">Guided help</a><a class="nav-try" href="#explore">Try it yourself ↗</a></nav>
+    <button class="menu-btn" id="menuBtn" type="button" aria-expanded="false" aria-controls="faq">Questions</button>
+  </header>
+
+  <div class="shell">
+    <nav class="faq" id="faq" aria-label="Questions">
+      <p class="faq-title">How do I&hellip;?</p>
+      <div id="faqList"></div>
+      <p class="faq-foot">Everything here runs in your browser. No cookies, no tracking, no account. Your playground is kept only if you ask. <a href="privacy.html">Website privacy</a> · <a href="app-privacy.html">App privacy policy</a></p>
+    </nav>
+
+    <main class="stage" id="stage" tabindex="-1">
+      <div id="entry"></div>
+      <noscript><p class="note">The interactive demos need JavaScript. Threadwell itself works without any account or sign in.</p></noscript>
+    </main>
+  </div>
+
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
