@@ -60,7 +60,7 @@ function route() {
   const key = isPlay ? 'explore' : isHome ? 'home' : spec.id;
   if (!isPlay && !isHome && raw !== spec.id) history.replaceState(null, '', '#' + spec.id);
   $$('.q').forEach(a => (a.dataset.id === key ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
-  document.title = isHome ? 'Threadwell: keep the messages that matter within reach' : `${spec.title} · Threadwell help`;
+  document.title = isHome ? 'Threadwell: less noise, more life' : `${spec.title} · Threadwell help`;
   const same = isPlay && current && current.isPlay;
   if (!same) {
     current?.destroy();
