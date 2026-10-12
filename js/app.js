@@ -73,7 +73,11 @@ function route() {
   $('#menuBtn').setAttribute('aria-expanded', 'false');
   if (!firstLoad) { $('#stage').scrollTo?.({ top: 0 }); window.scrollTo(0, 0); $('h1, h2', entry)?.focus({ preventScroll: true }); }
   firstLoad = false;
+  if (isPlay) playground.focusPending?.();
 }
+
+// A tutorial's "Try it yourself" link carries the challenge it leads to; the playground opens at it, keeping whatever the visitor has built.
+document.addEventListener('click', e => { const a = e.target.closest?.('[data-try]'); if (a) playground.pending = a.dataset.try; });
 
 $('#menuBtn').addEventListener('click', () => {
   const open = $('#faq').classList.toggle('open');

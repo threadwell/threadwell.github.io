@@ -13,13 +13,19 @@ import { inbox } from './inbox.js';
 import { widgetsHost, widgetOverlays, widgetActs, widgetsSettingsView, widgetPageView, widgetsSummary, WIDGETS } from './widgets-model.js';
 import { themeSpec } from './demos/themes.js';
 import { appearancePage } from './phone-ui.js';
+import { readableAccents } from './accents.js';
+import { views } from './play-views.js';
+import { navActs, messageActs, panelActs, applySave } from './play-notes.js';
+import { createNote, defaultSpace, saveCapture, setRemind, captureActs } from './play-notes.js';
 import { TIMES, HOURS, parseChecklist, checklistBody, toChecklistBody, toggleItem, addItem, MAX_NOTE_LENGTH } from './notes.js';
 import { tlist, tchat, chatAt, fullChat, playBoard, messagingPage, sharedOverlays, stripState, stripHtml, stripMode, STRIP_MODES, normalizeLink, capValid, WIDE } from './play-ui.js';
 import { CHALLENGES, evaluate } from './challenges.js';
+import { mountDemo } from './core.js';
+import { createDemoController, DEMO } from './demo-controller.js';
+import { DEMOS } from './challenge-demos.js';
 import { TH, SPAM_KEY, SPAM_CATEGORY, spamQuarantined, filteredHits, spamPage, spamFolderView, BUILTIN } from './play-org.js';
 
 const SEED_SPACES = ['trips', 'home', 'gifts', 'shop', 'dinner'];
-const withList = fn => s => { s.tlist = tlist(s); return fn(s); };
 const state = () => stateProxy();
 let api = null, rootEl = null, cleanups = [];
 
@@ -29,8 +35,6 @@ const S = () => api.s;
 const homeEl = () => api.el('home');
 const stripActive = () => !!api && S().layoutMode === 'board' && api.view === 'home' && !['today', 'search', 'spam'].includes(S().mode);
 
-/** Spaces that already hold this message (a threadmark made from it). */
-const tagSpaces = (s, m) => [...new Set(s.tags.filter(x => x.mid === m.id || (x.thread === s.thread && x.text === m.text)).map(x => x.space))];
 
 /** Same wording as SaveNotices.describe in the app. */
 function describeSave(added, removed, important) {
@@ -73,27 +77,6 @@ function openSpaceFromNotice(id) {
 }
 const noteSpace = id => S().spaces.some(x => x.id === id);
 
-/**
- * A Space's colour is a fine border but can be unreadable as text on a light card. Same rule as the app
- * (ContrastResolver.resolveForeground): keep the colour if it has enough contrast, otherwise black or white.
- */
-function readableAccents(el) {
-  const rgb = c => { const m = c.match(/rgba?\(([^)]+)\)/); if (!m) return null; const p = m[1].split(/[ ,\/]+/).map(Number); return { r: p[0], g: p[1], b: p[2], a: p[3] ?? 1 }; };
-  const lum = ({ r, g, b }) => { const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); }; return 0.2126 * f(r) + 0.7152 * f(g) + 0.0722 * f(b); };
-  const ratio = (a, b) => (Math.max(lum(a), lum(b)) + 0.05) / (Math.min(lum(a), lum(b)) + 0.05);
-  const hex = h => ({ r: parseInt(h.slice(1, 3), 16), g: parseInt(h.slice(3, 5), 16), b: parseInt(h.slice(5, 7), 16) });
-  el.querySelectorAll('.ncard').forEach(card => {
-    const b = card.querySelector('.nhead b'); const accent = card.style.getPropertyValue('--accent').trim();
-    if (!b || !/^#[0-9a-f]{6}$/i.test(accent)) return;
-    const panel = rgb(getComputedStyle(card).getPropertyValue('--panel')) || { r: 0, g: 0, b: 0 };
-    const p2 = rgb(getComputedStyle(card).backgroundColor) || panel;
-    const bg = { r: p2.r * p2.a + panel.r * (1 - p2.a), g: p2.g * p2.a + panel.g * (1 - p2.a), b: p2.b * p2.a + panel.b * (1 - p2.a) };
-    const c = hex(accent);
-    const pick = ratio(c, bg) >= 4.5 ? accent : (ratio({ r: 0, g: 0, b: 0 }, bg) >= ratio({ r: 255, g: 255, b: 255 }, bg) ? '#000' : '#fff');
-    b.style.color = pick;
-  });
-}
-
 /** A scroll made by the page itself (jump to a result) is not the visitor reading, so it must not collapse widgets. */
 /**
  * The message (or the first message of a photo group) at the bottom edge of the Threadwell chat, or null when the newest
@@ -115,7 +98,7 @@ function jumpTo(sel, block = 'center') {
 }
 
 function stripSync(restart = false) {
-  const armed = stripActive() && stripState(S()).timerArmed;
+  const armed = !suspended && stripActive() && stripState(S()).timerArmed;
   if (!armed) { clearTimeout(strip.timer); strip.timer = null; return; }
   if (restart) { clearTimeout(strip.timer); strip.timer = null; }
   if (!strip.timer) strip.timer = setTimeout(() => {
@@ -190,23 +173,7 @@ function bindScroll(screen) {
 const spaceById = id => S().spaces.find(x => x.id === id);
 const noteById = id => S().notes.find(x => x.id === id);
 const stamp = () => nextId('');   // monotonic creation order
-function newNote(space, body, thread = null, extra = {}) {
-  const n = { id: nextId('n'), space, thread, body, at: Number(stamp()), date: 'Today', pinned: false, remind: null, remindH: null, done: false, edited: false, ...extra };
-  S().notes.push(n);
-  return n;
-}
-function defaultSpace(s) {
-  const cur = s.channel.startsWith('c:') ? s.channel.slice(2) : null;
-  return [cur, ...s.recents].find(id => id && s.spaces.some(x => x.id === id)) || s.spaces[0]?.id || null;
-}
-function ensureSpace() {
-  const s = S();
-  if (s.spaces.length) return null;
-  const sp = { id: 'inbox', name: 'Inbox', emoji: '📥', color: '#5b8def' };
-  s.spaces.push(sp);
-  return sp.id;
-}
-const setRemind = (item, label) => { item.remind = label ? TIMES[label] : null; item.remindH = label ? HOURS[label] : null; };
+const newNote = (space, body, thread = null, extra = {}) => createNote(S(), space, body, thread, extra);
 const where = ref => { const [kind, id] = ref.split(':'); return { kind, id, item: kind === 'note' ? noteById(id) : S().tags.find(x => x.id === id) }; };
 const closeTools = () => { S().peek = false; };
 
@@ -222,18 +189,9 @@ const acts = {
   textsize: (a, _x, el) => { a.s.textScale = Number(el.value); const out = a.$('#ts-out'); if (out) out.textContent = a.s.textScale + '%'; a.refresh(); },
 
   /* navigation and settings */
-  gear: a => { closeTools(); a.s.pulse = ''; a.go('settings'); },
-  settings: a => { closeTools(); a.go('settings'); },
-  cat: (a, id) => {
-    const to = { appearance: 'appearance', widgets: 'wset', messaging: 'messaging', spam: 'spam' }[id];
-    if (to) a.go(to); else a.callout(`<b>${esc(CAT_NAME[id] || id)}</b> isn’t part of the playground, and it doesn’t have a tutorial yet.`);
-  },
-  layout: (a, mode) => {
-    // Verified in the app (MessageBoardScreen.kt `selectedId`): switching to Threadwell view selects the last conversation chosen
-    // IN Threadwell view (else the first one), not the one being read in Traditional view. Traditional shows the list.
-    if (mode === 'board' && a.s.layoutMode !== 'board') a.s.thread = a.s.boardThread ?? 0;
-    a.s.layoutMode = mode; a.render('messaging'); a.say(`Layout: ${mode === 'board' ? 'Threadwell view' : 'Traditional'}. Your messages, Spaces and checklists are unchanged.`);
-  },
+  ...navActs(),
+  ...messageActs(),
+  ...panelActs(),
   setrail: a => { a.s.railCollapsed = !a.s.railCollapsed; a.render('messaging'); },
   settools: a => { a.s.toolsCollapsed = !a.s.toolsCollapsed; a.s.peek = false; a.render('messaging'); },
   stripmode: (a, key) => { a.s.stripMode = key; a.render('messaging'); a.callout(`Widget strip: <b>${esc(STRIP_MODES.find(m => m.key === key).label)}</b>. It takes effect the next time you open a conversation in Threadwell view.`); },
@@ -259,7 +217,6 @@ const acts = {
     a.render(); a.el(a.view)?.querySelectorAll('[data-end]').forEach(n => { n.scrollTop = n.scrollHeight; });
     a.$('#msgin')?.focus({ preventScroll: true });
   },
-  hold: (a, mid) => { const s = a.s; if (s.bar && s.holdMid === mid) s.bar = false; else { s.holdMid = mid; s.bar = true; } s.menu = false; a.render(); },
   channel: (a, key) => {
     const s = a.s; s.sheet = null; s.bar = false;
     if (key === 'CHAT') { s.mode = 'chat'; s.channel = 'CHAT'; }
@@ -268,10 +225,7 @@ const acts = {
     a.render();
   },
   pickspace: (a, id) => { const s = a.s; s.sheet = null; s.mode = 'space'; s.channel = 'c:' + id; s.scopeAll = s.defaultScopeAll; s.recents = [id, ...s.recents.filter(x => x !== id)].slice(0, 3); a.render(); },
-  spaces: a => { closeTools(); a.s.mode = 'library'; a.s.sheet = null; a.s.channel = 'CHAT'; a.render(); },
   today: a => { closeTools(); a.s.mode = 'today'; a.s.sheet = null; a.render(); patchStrip(); },
-  openspace: (a, id) => { const s = a.s; s.mode = 'libspace'; s.channel = 'c:' + id; s.scopeAll = true; s.hl = null; a.render(); },
-  libback: a => { a.s.mode = 'library'; a.render(); },
   showchat: (a, id) => { a.s.shown = id; a.go('chat'); },
   // Open chat (Threadwell view header): the full conversation, at the message that was at the bottom edge of the board's
   // chat (the app's BoardChatPosition → onOpenMessage), or at the newest message when the reader was already there.
@@ -342,9 +296,6 @@ const acts = {
   },
 
   /* tools column and Space list: real, saved collapse behaviour */
-  collapsetools: a => { const s = a.s; replacePanel(a.el('home'), '.rstack', () => { if (s.toolsCollapsed) s.peek = false; else s.toolsCollapsed = true; a.render(); }, { reduced: motionOff() }); a.$(s.toolsCollapsed && !s.peek ? '#showtools' : '#collapsetools')?.focus({ preventScroll: true }); },
-  showtools: a => { replacePanel(a.el('home'), '.rstack', () => { a.s.peek = true; a.render(); }, { reduced: motionOff() }); a.$('#collapsetools')?.focus({ preventScroll: true }); },
-  togglechannels: a => { a.s.railCollapsed = !a.s.railCollapsed; a.render(); a.$('#togglepanel')?.focus({ preventScroll: true }); },
   stripcollapse: () => stripCollapse('user'),
   stripexpand: () => stripExpand(),
   wdock: a => { a.s.dockOpen = true; a.render(); },
@@ -352,19 +303,12 @@ const acts = {
   wshowtop: () => stripExpand(),
 
   /* saving a message into a Space */
-  addspace: a => { const s = a.s, m = s.msgs[s.thread].find(x => x.id === s.holdMid); s.bar = false; s.menu = false; s.saveDlg = true; s.tick = m ? tagSpaces(s, m) : []; s.important = !!(m && m.star); a.render(); },
   savemsg: a => {
-    const s = a.s, m = s.msgs[s.thread].find(x => x.id === s.holdMid);
-    s.saveDlg = false; s.bar = false;
-    if (!m) { a.render(); return; }
-    const before = tagSpaces(s, m), after = s.tick.filter(id => spaceById(id));
-    const added = after.filter(id => !before.includes(id)), removed = before.filter(id => !after.includes(id));
-    removed.forEach(id => { s.tags = s.tags.filter(x => !(x.space === id && (x.mid === m.id || (x.thread === s.thread && x.text === m.text)))); });
-    added.forEach(id => s.tags.push({ id: nextId('t'), space: id, thread: s.thread, mid: m.id, text: m.text || '[photo]', date: 'Today', kind: 'Message', important: s.important, at: Number(stamp()) }));
-    const wasStar = !!m.star; m.star = s.important;               // the Important box stars the message (ChannelPickerDialog)
-    s.flash = added[0] || null; a.render();
-    const text = describeSave(added.map(id => spaceById(id).name), removed.map(id => spaceById(id)?.name).filter(Boolean), s.important !== wasStar ? s.important : null);
-    if (text) showNotice(text, added.length === 1 && !removed.length ? added[0] : null);
+    const s = a.s, r = applySave(s);
+    if (!r) { a.render(); return; }
+    a.render();
+    const text = describeSave(r.added.map(id => spaceById(id).name), r.removed.map(id => spaceById(id)?.name).filter(Boolean), r.important);
+    if (text) showNotice(text, r.added.length === 1 && !r.removed.length ? r.added[0] : null);
   },
   makechecklist: (a, id) => {
     const tag = a.s.tags.find(x => x.id === id); if (!tag) return;
@@ -386,51 +330,18 @@ const acts = {
   },
 
   /* Add to Threadwell */
-  capture: (a, kind) => {
-    closeTools();
-    if (kind) { a.s.cap = { kind, space: defaultSpace(a.s), text: '', at: null }; a.s.capMenu = false; }
-    else a.s.capMenu = !a.s.capMenu;
-    a.render();
-    a.$('#captext')?.focus({ preventScroll: true });
-  },
-  capclose: a => { a.s.capMenu = false; a.render(); },
-  capkind: (a, kind) => {
-    const s = a.s;
-    if (s.capMenu) { s.capMenu = false; s.cap = { kind, space: defaultSpace(s), text: '', at: null }; }
-    else if (s.cap) { s.cap.kind = kind; if (kind === 'REMINDER' && !s.cap.at) s.cap.at = null; }
-    a.render(); a.$('#captext')?.focus({ preventScroll: true });
-  },
-  capspace: (a, id) => { a.s.cap.space = id; a.render(); },
-  captext: (a, _x, el) => {
-    a.s.cap.text = el.value;
-    const b = a.$('#capsave'); if (b) b.disabled = !capValid(a.s.cap);
-    const bad = a.s.cap.kind === 'LINK' && el.value && !capValid(a.s.cap); el.toggleAttribute('aria-invalid', bad);
-  },
-  captime: (a, label) => { a.s.cap.at = label || null; a.render(); },
-  capcancel: a => { a.s.cap = null; a.render(); },
+  ...captureActs(),
   capsave: a => {
-    const s = a.s, c = s.cap; if (!c || !capValid(c)) return;
-    const made = ensureSpace();
-    const space = made || (s.spaces.some(x => x.id === c.space) ? c.space : defaultSpace(s));
-    const body = c.kind === 'CHECKLIST' ? toChecklistBody(c.text) : c.kind === 'LINK' ? normalizeLink(c.text) : c.text.trim();
-    const n = newNote(space, body.slice(0, MAX_NOTE_LENGTH), null);
-    if (c.at) setRemind(n, c.at);
-    s.recents = [space, ...s.recents.filter(x => x !== space)].slice(0, 3);
-    s.cap = null; s.flash = space; s.hl = n.id; a.render();
+    const s = a.s, saved = saveCapture(s); if (!saved) return;
+    const { note: n, space, kind, at } = saved;
+    a.render();
     const sp = spaceById(space);
-    const what = { CHECKLIST: 'checklist', NOTE: 'note', REMINDER: 'reminder', LINK: 'link' }[c.kind];
-    a.callout(`Saved to <b>${sp.emoji} ${esc(sp.name)}</b> as a personal ${what}. <button class="btn sm" type="button" data-open="${n.id}">Open saved ${what}</button> <span class="muted">Playground shortcut: the app has no such button. It opens the Space under All chats, where personal notes live.</span> ${c.at ? 'Playground reminders never show a notification.' : ''}`);
+    const what = { CHECKLIST: 'checklist', NOTE: 'note', REMINDER: 'reminder', LINK: 'link' }[kind];
+    a.callout(`Saved to <b>${sp.emoji} ${esc(sp.name)}</b> as a personal ${what}. <button class="btn sm" type="button" data-open="${n.id}">Open saved ${what}</button> <span class="muted">Playground shortcut: the app has no such button. It opens the Space under All chats, where personal notes live.</span> ${at ? 'Playground reminders never show a notification.' : ''}`);
     a.say(`Saved to ${sp.name}. An Open saved ${what} button is below the phone.`);
   },
 
   /* a note or checklist */
-  ntoggle: (a, arg) => {
-    const [id, i] = arg.split(':'); const n = noteById(id);
-    if (n) toggleItem(n, Number(i));
-    a.s.ckAnim = n ? { key: arg, on: !!parseChecklist(n.body)[Number(i)].done } : null;
-    a.render();
-    setTimeout(() => { if (api) api.s.ckAnim = null; }, 400);
-  },
   itemdraft: (a, id, el) => { (a.s.itemDraft ||= {})[id] = el.value; const b = a.$('#aib-' + id); if (b) b.disabled = !el.value.trim(); },
   itemadd: (a, id) => {
     const n = noteById(id), t = (a.s.itemDraft[id] || '');
@@ -481,7 +392,6 @@ const acts = {
     a.s.done = true; a.render();
   },
 };
-const CAT_NAME = { backup: 'Backup & data', privacy: 'Privacy & data', help: 'Help & advanced' };
 
 function showMsg(a, mid) {
   const s = a.s;
@@ -493,6 +403,7 @@ function showMsg(a, mid) {
 /** Starter actions outside the phone. Each opens a screen in the existing session and leaves the app's own navigation intact. */
 function starter(kind) {
   const a = api; if (!a) return;
+  if (demo && demo.state !== DEMO.IDLE) demo.stop();      // a shortcut acts on the real playground, so the demonstration ends first
   const s = a.s;
   Object.assign(s, { capMenu: false, cap: null, noteMenu: null, noteMode: null, sheet: null, saveDlg: false, bar: false, cb: null, dlg: null, wsheet: null, spDelete: null, peek: false });
   if (kind === 'checklist') {
@@ -517,28 +428,6 @@ function openNote(id) {
   patchStrip(); jumpTo('#note-' + n.id, 'nearest');
   a.callout(''); a.say('Opened your saved item in its Space.');
 }
-
-/* ================= views ================= */
-const views = {
-  home: withList(s => (s.layoutMode === 'board'
-    ? playBoard(s)
-    : inbox(s, { pulse: s.pulse, threads: s.tlist, openRows: true, widgets: widgetsHost(s, 'trad'), spamLive: true, spamCount: spamQuarantined(s) ? 1 : 0 }) + widgetOverlays(s, 'trad') + sharedOverlays(s))),
-  tchat: withList(s => tchat(s)),
-  chat: withList(s => chatAt(s)),
-  fullchat: withList(s => fullChat(s)),
-  settings: s => settingsHome({ appliedTheme: s.appliedTheme, reduceMotion: s.reduceMotion, smart: s.smart, autoReport: s.autoReport, widgetsSummary: widgetsSummary(s) }, { pulse: s.pulse }),
-  spam: s => spamPage(s),
-  spamlist: withList(s => statusbar() + appbar('Spam', { back: true }) + `<div class="set-body" tabindex="0">${spamFolderView(s)}</div>`),
-  messaging: s => messagingPage(s),
-  appearance: s => appearancePage({ ...flat(s), pg: true }, { pulse: s.pulse }),
-  gallery: s => themeSpec.views.gallery(s),
-  preview: s => themeSpec.views.preview(s),
-  customize: s => themeSpec.views.customize(s),
-  picker: s => themeSpec.views.picker(s),
-  wset: s => widgetsSettingsView(s),
-  wpage: s => widgetPageView(s),
-};
-function flat(s) { return { appliedTheme: s.appliedTheme, colorMode: s.colorMode, reduceMotion: s.reduceMotion, textScale: s.textScale, photoStyle: s.photoStyle, stackSpread: s.stackSpread }; }
 
 /* ================= guidance (outside the phone) ================= */
 function note(name) {
@@ -570,7 +459,8 @@ function guideHtml() {
   return `<ul class="chal" aria-label="Challenges">${CHALLENGES.map(c => `<li class="${t.done[c.id] ? 'done' : ''}" data-id="${c.id}">
     <span class="tick" aria-hidden="true">${t.done[c.id] ? '✓' : ''}</span>
     <div><b>${c.title}</b><span class="sr-only">${t.done[c.id] ? ' (done)' : ''}</span>
-      <details><summary>Show a way to do it</summary><ol>${c.hint.map(h => `<li>${h}</li>`).join('')}</ol></details></div></li>`).join('')}</ul>
+      ${DEMOS[c.id] ? `<button class="btn sm chal-show" type="button" data-show="${c.id}" aria-label="Show me: ${c.title.replace(/\.$/, '')}">Show me</button>` : ''}
+      <details><summary>Read the steps</summary><ol>${c.hint.map(h => `<li>${h}</li>`).join('')}</ol></details></div></li>`).join('')}</ul>
     <p class="caption">Each one ticks off from what you actually do. Skip any step, take another route, or ignore the list. You can keep exploring afterwards.</p>`;
 }
 function paintGuide() {
@@ -618,6 +508,7 @@ function shell() {
       <p class="pgstate" id="pgState" role="status" aria-live="off"></p>
     </div>
     ${phoneColumnStub()}
+    <div class="pg-demo" id="pgDemo" hidden></div>
     <div class="entry-after">
       <details class="pg-more" id="pgMore"><summary>Your playground: reset, saving, and what is simulated</summary>
       <div class="pg-tools">
@@ -705,7 +596,113 @@ function mounted(a, root) {
     a.reset(); stripVisit(); patchStrip(); syncKeep(); paintGuide();
     a.say('Playground reset to the sample content.'); rst.focus();
   });
+  setupDemos(root);
   paintGuide(); refreshState();
+}
+
+
+/* ================= demonstrations: "Show me" in Guided help ================= */
+// A demonstration is a separate sample session mounted in place of the phone. The visitor's playground is not rebuilt or
+// serialised: its phone is moved out of view and frozen where it is (drafts, screen, history and scroll all stay in the DOM
+// and in the session), and its own timers are stopped until it comes back. Demonstration actions run against the demo's state,
+// never the session, so they cannot reach the challenge event log, the saved copy or the visitor's content.
+let suspended = false, demo = null, wasWide = false;
+const FROZEN = ['.pg-starters', '.pg-modes', '#pgInvite', '#pgMore'];    // controls that would act on the hidden playground
+
+function suspendHost() {
+  suspended = true;
+  wasWide = rootEl.classList.contains('wide');     // a demonstration may borrow a wider layout; this is what to give back
+  clearTimeout(strip.timer); strip.timer = null;
+  const col = $('.phonecol', rootEl);
+  col.style.setProperty('--hold-w', col.offsetWidth + 'px');
+  col.classList.add('suspended'); col.inert = true; col.setAttribute('aria-hidden', 'true');
+  FROZEN.forEach(sel => { const n = $(sel, rootEl); if (n) n.inert = true; });
+  $('#pgDemo', rootEl).hidden = false;
+}
+function restoreHost() {
+  suspended = false;
+  if (!rootEl) return;
+  const col = $('.phonecol', rootEl);
+  col.classList.remove('suspended'); col.inert = false; col.removeAttribute('aria-hidden'); col.style.removeProperty('--hold-w');
+  FROZEN.forEach(sel => { const n = $(sel, rootEl); if (n) n.inert = false; });
+  rootEl.classList.toggle('wide', wasWide);
+  const d = $('#pgDemo', rootEl); d.hidden = true; d.innerHTML = '';
+  stripSync(); refreshState();
+}
+
+function demoFrame(info) {
+  return `<div class="demo-frame">
+    <h2 class="demo-title" id="demoTitle" tabindex="-1">Demonstration · ${esc(info.title)}</h2>
+    <p class="demo-sub">Watch with sample content. Your playground will be here when you return.</p>
+    <div class="demo-ctl" role="group" aria-label="Demonstration controls">
+      <button class="btn sm" type="button" data-dc="pause" data-in="playing">Pause</button>
+      <button class="btn sm" type="button" data-dc="resume" data-in="paused">Resume</button>
+      <button class="btn ghost sm" type="button" data-dc="restart" data-in="paused">Restart</button>
+      <button class="btn sm" type="button" data-dc="try" data-in="finished">Try it yourself</button>
+      <button class="btn ghost sm" type="button" data-dc="replay" data-in="finished">Replay</button>
+      <button class="btn sm" type="button" data-dc="steps" data-in="failed">Read the steps</button>
+      <button class="btn ghost sm" type="button" data-dc="exit" data-in="playing paused failed">Return to playground</button>
+    </div>
+    <p class="demo-msg" data-in="paused">Paused. Resume continues from the current step.</p>
+    <p class="demo-msg" data-in="failed">This demonstration couldn’t play here. Your playground is unchanged; the written steps are still available.</p>
+    <section class="demo-end" data-in="finished" aria-labelledby="demoEndH"><h3 id="demoEndH">Your turn</h3>
+      <p>Try these steps in your own playground.</p>
+      ${info.tools ? `<button class="btn ghost sm" type="button" data-dc="tools">${esc(info.tools.label)}</button>` : ''}</section>
+    <div id="pgDemoBody"></div></div>`;
+}
+const DEMO_SAYS = {
+  [DEMO.PLAYING]: 'Demonstration playing.', [DEMO.PAUSED]: 'Demonstration paused.',
+  [DEMO.FINISHED]: 'Demonstration finished. Choose Try it yourself or Replay.',
+  [DEMO.FAILED]: 'The demonstration could not play. Choose Read the steps or Return to playground.',
+};
+const focusDemo = () => $('#pgDemo [data-dc]:not([hidden])', rootEl)?.focus({ preventScroll: true });
+function paintDemo(state) {
+  const d = $('#pgDemo', rootEl); if (!d) return;
+  d.dataset.state = state;
+  $$('[data-in]', d).forEach(n => { n.hidden = !n.dataset.in.split(' ').includes(state); });
+  const ae = document.activeElement;
+  if (ae === document.body || (d.contains(ae) && ae.closest('[hidden]'))) focusDemo();
+  announce(DEMO_SAYS[state] || '');
+}
+
+function leaveDemo(how) {
+  const id = demo.current?.id;
+  demo.stop();                                              // destroys the demonstration and gives the playground back
+  const origin = id && $(`[data-show="${id}"]`, rootEl);
+  if (how === 'steps' || how === 'try') origin?.closest('li')?.querySelector('details')?.setAttribute('open', '');
+  origin?.focus();
+}
+
+function setupDemos(root) {
+  demo = createDemoController({
+    suspend: suspendHost, restore: restoreHost,
+    mount: info => {
+      $('#pgDemo', root).innerHTML = demoFrame(info);
+      // A wide preview needs the page's wide layout, which moves the demonstration; keep it in view while it does.
+      const setWide = on => { const was = root.classList.contains('wide'); root.classList.toggle('wide', on || wasWide); if (was !== root.classList.contains('wide')) $('#pgDemo', root).scrollIntoView({ block: 'start' }); };
+      return mountDemo($('#pgDemoBody', root), info.make({ reduceMotion: motionOff(), setWide }));
+    },
+    onChange: (state) => { if (state !== DEMO.IDLE) paintDemo(state); },
+  });
+  $('#pgGuide', root).addEventListener('click', e => {
+    const b = e.target.closest('[data-show]'); const entry = b && DEMOS[b.dataset.show]; if (!entry) return;
+    const c = CHALLENGES.find(x => x.id === b.dataset.show);
+    if (demo.start({ id: c.id, title: c.title.replace(/\.$/, ''), make: entry.make, tools: entry.tools })) {
+      focusDemo(); $('#pgDemo', root).scrollIntoView({ block: 'start' });
+    }
+  });
+  $('#pgDemo', root).addEventListener('click', e => {
+    const b = e.target.closest('[data-dc]'); if (!b) return;
+    switch (b.dataset.dc) {
+      case 'pause': demo.pause(); break;
+      case 'resume': demo.resume(); break;
+      case 'restart': case 'replay': demo.restart(); break;
+      case 'exit': leaveDemo('exit'); break;
+      case 'try': leaveDemo('try'); break;
+      case 'steps': leaveDemo('steps'); break;
+      case 'tools': { const kind = demo.current?.tools?.starter; leaveDemo('try'); if (kind) starter(kind); break; }
+    }
+  });
 }
 
 /* ================= the spec ================= */
@@ -720,6 +717,16 @@ const spec = {
   chrome(screen, s) { themeSpec.chrome(screen, s); },
   mounted,
   startNow(kind) { starter(kind); },
+  /** Set by a standalone tutorial's "Try it yourself" link; consumed once the playground is on screen in Guided help. */
+  pending: null,
+  focusPending() {
+    const id = this.pending; this.pending = null;
+    const li = id && rootEl && $(`#pgGuide li[data-id="${id}"]`, rootEl);
+    if (!li) return;
+    li.querySelector('details')?.setAttribute('open', '');
+    li.scrollIntoView({ block: 'center' });
+    (li.querySelector('[data-show]') || li.querySelector('summary'))?.focus({ preventScroll: true });
+  },
   setMode(mode) { if (mode) { session.tut.mode = mode; session.tut.dismissed = true; paintGuide(); } },
   onView(a, name) {
     api = api || a;
@@ -761,6 +768,7 @@ const spec = {
     a.callout(esc(why)); a.say(why);
   },
   destroy() {
+    demo?.stop(); demo = null;
     cleanups.forEach(f => f()); cleanups = [];
     clearTimeout(strip.timer); strip.timer = null;
     persist(); noticeEl = null; clearTimeout(noticeTimer); api = null; rootEl = null; announceEl = null;

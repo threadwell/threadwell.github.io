@@ -113,3 +113,11 @@ Playground fidelity decisions verified against the app (do not "improve" them):
 - A photo group's identity for actions and for "open at my position" is its **first** message.
 
 Status of every feature (implemented / unit-tested / emulator / phone / released): `docs/feature-status.md`.
+
+## Guided help demonstrations ("Show me" on a challenge)
+
+- Mapping: `js/challenge-demos.js` (challenge id -> `playDemo` spec). Each demonstration is a **separate sample session** (`freshState()`), never the visitor's session, drawn with the playground's own screens (`js/play-views.js`) and actions (`js/play-notes.js`, `js/playdemos/kit.js`). A demonstration action must never call `note()`, `persist()` or touch `session`; that is what keeps challenges honest. If you need a playground action in a demonstration, make it take the state (`a.s`) instead of reading the session, then share it, as `play-notes.js` does.
+- `js/demo-controller.js` is the only owner of mount / pause / restart / cancel and of suspending the playground (phone moved off-screen and `inert`, starters frozen, strip timer stopped). Keep it DOM-free; tests: `node tools/test-demo-controller.mjs`.
+- Each demonstration file's header comment names what it was verified against in the app. A checklist has no title; the wide Space list needs a wide window (the collapse demo borrows the unfolded size with `api.setDevice`, which never changes the visitor's own size).
+- Standalone tutorials link to the matching challenge through `js/try-it.js` (`data-try`), keeping the playground as is.
+- Preview with `py` and `Cache-Control: no-store` (the browser pane caches module files); wait for the page title after a hash change, because view transitions stall while the pane is hidden.

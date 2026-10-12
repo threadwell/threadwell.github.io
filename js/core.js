@@ -7,6 +7,8 @@ export const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 export const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches;
 export const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
+import { TRY } from './try-it.js';
+
 const CANCEL = Symbol('cancel');
 
 // The preview size is a website setting, not tutorial state: it survives Reset and switching tutorials.
@@ -44,6 +46,7 @@ export function phoneColumn(spec, { demoButtons = true, sampleNote = 'Sample dat
 }
 
 export function mountDemo(root, spec) {
+  const tryIt = spec.tryIt || TRY[spec.id];
   root.innerHTML = spec.shell ? spec.shell(spec) : `
     <div class="entry-copy">
       <h1 tabindex="-1">${spec.title}</h1>
@@ -51,6 +54,7 @@ export function mountDemo(root, spec) {
       <ol class="steps" aria-label="Steps">${spec.steps.map(s => `<li><span>${s}</span></li>`).join('')}</ol>
       <div class="controls">
         <button class="btn" type="button" data-ctl="play">Show me</button>
+        <button class="btn ghost" type="button" data-ctl="pause" hidden>Pause</button>
         <button class="btn ghost" type="button" data-ctl="reset">Reset</button>
       </div>
     </div>
@@ -58,7 +62,7 @@ export function mountDemo(root, spec) {
     <div class="entry-after">
       ${spec.note ? `<p class="note">${spec.note}</p>` : ''}
       <p class="note sess"><strong>This tutorial runs in its own sample session.</strong> Nothing here touches a playground you may have open. <a href="#explore">Explore Threadwell freely</a> to use the same screens with your own content.</p>
-      ${spec.next ? `<div class="next" id="next" hidden><strong>Done. What next?</strong><div>${spec.next.map(n => `<a class="btn ghost" href="#${n.id}">${n.label}</a>`).join('')}</div></div>` : ''}
+      ${spec.next || tryIt ? `<div class="next" id="next" hidden><strong>${tryIt ? 'Your turn' : 'Done. What next?'}</strong>${tryIt ? '<p>Try these steps in your own playground.</p>' : ''}<div>${tryIt ? `<a class="btn" href="#guided" data-try="${tryIt.challenge}">${tryIt.label}</a>` : ''}${(spec.next || []).map(n => `<a class="btn ghost" href="#${n.id}">${n.label}</a>`).join('')}</div>${tryIt ? '<p class="caption">Opens Guided help in the playground, at this challenge. Your playground stays as you left it.</p>' : ''}</div>` : ''}
     </div>
     <p class="sr-only" role="status" aria-live="polite" id="demoStatus"></p>`;
 
@@ -73,7 +77,9 @@ export function mountDemo(root, spec) {
 
   // ----- preview size -----
   // Only tutorials that opt in (devices: true) can leave the portrait phone; the rest always show it.
-  const device = () => (spec.devices ? deviceChoice : 'phone');
+  // A demonstration may borrow another size for a moment (setDevice); that never touches the visitor's own preview-size choice.
+  let forced = null;
+  const device = () => forced || (spec.devices ? deviceChoice : 'phone');
   function applyDevice() {
     phone.dataset.device = device();
     root.dataset.device = device();
@@ -114,6 +120,11 @@ export function mountDemo(root, spec) {
   const views = {};            // name -> element
   let runId = 0;
   let ctx;
+  // Pause support for demonstrations: a paused run holds at its next wait and carries on from there.
+  let paused = false;
+  const waiters = [];
+  const halt = () => { runId++; paused = false; playing = false; waiters.splice(0).forEach(f => f()); };   // cancels a run, wakes anything held
+  const motionOff = () => reduced() || !!spec.reducedMotion?.();
 
   const api = {
     get s() { return ctx.s; },
@@ -171,6 +182,14 @@ export function mountDemo(root, spec) {
     say: msg => { status.textContent = msg; },
     reset: () => reset(),
     userActed: () => !!ctx.user,
+    // Show the phone at another size for part of a demonstration. Only this preview changes, and Reset puts it back.
+    setDevice(id) {
+      forced = id || null;
+      ctx.s.device = device();
+      applyDevice();
+      api.render();
+      spec.onDevice?.(device());
+    },
     // A note that belongs to the tutorial, not to the app. Used where the real app shows nothing.
     callout(html) {
       callout.hidden = !html;
@@ -182,6 +201,8 @@ export function mountDemo(root, spec) {
         li.toggleAttribute('aria-current', i === n - 1);
       });
       if (n > 0 && stepEls[n - 1]) status.textContent = `Step ${n}: ${stepEls[n - 1].textContent}`;
+      const now = $('[data-now]', root);
+      if (now) now.textContent = n > 0 && stepEls[n - 1] ? `Step ${n} of ${stepEls.length}: ${stepEls[n - 1].textContent}` : '';
       if (nextCard) nextCard.hidden = n < stepEls.length;
     },
     $: sel => $(sel, views[ctx.view]),
@@ -216,7 +237,9 @@ export function mountDemo(root, spec) {
   }
 
   function reset() {
-    runId++;
+    halt();
+    const borrowed = forced;
+    forced = null;
     // The playground's state is a shared session: "reset" only rebuilds the screens, never the visitor's content.
     const s = spec.session ? spec.state() : { ...spec.state(), device: device() };
     if (spec.session) s.device = device();
@@ -232,6 +255,8 @@ export function mountDemo(root, spec) {
     api.step(0);
     api.callout('');
     status.textContent = '';
+    if (borrowed) { applyDevice(); spec.onDevice?.(device()); }
+    syncPause();
   }
 
   // Direct manipulation: every control in the phone carries data-act.
@@ -249,7 +274,7 @@ export function mountDemo(root, spec) {
   screen.addEventListener('click', dispatch);
   screen.addEventListener('input', e => { if (e.target.matches('[data-act]')) dispatch(e); });
   screen.addEventListener('keydown', e => {
-    if (e.isTrusted) runId++;
+    if (e.isTrusted) halt();
     if (e.key === 'Enter' && e.target.dataset?.enter) { e.preventDefault(); $(e.target.dataset.enter, screen)?.click(); }
     // Escape closes the innermost open menu, sheet or dialog. Each declares its close action in data-esc.
     if (e.key === 'Escape' && e.isTrusted) {
@@ -258,14 +283,18 @@ export function mountDemo(root, spec) {
       if (fn) { e.preventDefault(); e.stopPropagation(); ctx.user = true; fn(api, undefined, layer, e); }
     }
   });
-  screen.addEventListener('pointerdown', e => { if (e.isTrusted) runId++; });
+  screen.addEventListener('pointerdown', e => { if (e.isTrusted) halt(); });
 
   // Auto-play ("Show me"). Cancelled by any real user input, Reset, or leaving the question.
   async function play() {
     reset();
     const id = ++runId;
     const t = {
-      sleep: ms => new Promise((res, rej) => setTimeout(() => (runId === id ? res() : rej(CANCEL)), reduced() ? Math.min(ms, 450) : ms)),
+      sleep: ms => new Promise((res, rej) => setTimeout(async () => {
+        if (runId !== id) return rej(CANCEL);
+        if (paused) await new Promise(r => waiters.push(r));        // held here until Resume (or cancelled)
+        runId === id ? res() : rej(CANCEL);
+      }, motionOff() ? Math.min(ms, 450) : ms)),
       async tap(sel) {
         const el = $(sel, views[ctx.view]);
         if (!el) throw new Error('tap target missing: ' + sel);
@@ -275,15 +304,25 @@ export function mountDemo(root, spec) {
         el.click();
         await t.sleep(300);
       },
+      // Type into a field one character at a time (all at once under reduced motion), firing input events like a keyboard.
+      async type(sel, text) {
+        const el = $(sel, views[ctx.view]);
+        if (!el) throw new Error('type target missing: ' + sel);
+        const put = v => { el.value = v; el.dispatchEvent(new Event('input', { bubbles: true })); };
+        if (motionOff()) { put(text); await t.sleep(300); return; }
+        for (let i = 1; i <= text.length; i++) { put(text.slice(0, i)); await t.sleep(text[i - 1] === '\n' ? 220 : 45); }
+      },
       // Animate a range input between two values (for sliders).
       async slide(sel, to, ms = 1200) {
         const el = $(sel, views[ctx.view]);
-        const from = Number(el.value), start = performance.now();
-        if (reduced()) { el.value = to; el.dispatchEvent(new Event('input', { bubbles: true })); return; }
+        const from = Number(el.value);
+        let start = performance.now();
+        if (motionOff()) { el.value = to; el.dispatchEvent(new Event('input', { bubbles: true })); return; }
         // Timer based (not requestAnimationFrame) so it still completes in a background or hidden tab.
         await new Promise((res, rej) => {
           const tick = () => {
             if (runId !== id) return rej(CANCEL);
+            if (paused) { start += 50; return setTimeout(tick, 50); }   // time spent paused does not count
             const p = Math.min(1, (performance.now() - start) / ms);
             el.value = Math.round(from + (to - from) * (1 - Math.pow(1 - p, 3)));
             el.dispatchEvent(new Event('input', { bubbles: true }));
@@ -293,9 +332,22 @@ export function mountDemo(root, spec) {
         });
       },
     };
-    try { await spec.play(api, t); }
-    catch (e) { if (e !== CANCEL) throw e; }
+    playing = true; syncPause();
+    try { await spec.play(api, t); return 'done'; }
+    catch (e) { if (e !== CANCEL) throw e; return 'cancelled'; }
+    finally { if (runId === id) { playing = false; syncPause(); } }
   }
+  const pause = () => { paused = true; syncPause(); };
+  const resume = () => { paused = false; waiters.splice(0).forEach(f => f()); syncPause(); };
+  // The tutorials' own Pause button (shown only while Show me runs); the playground's demonstrations use their own controls.
+  let playing = false;
+  const pauseBtn = $('[data-ctl="pause"]', root);
+  function syncPause() {
+    if (!pauseBtn) return;
+    pauseBtn.hidden = !playing;
+    pauseBtn.textContent = paused ? 'Resume' : 'Pause';
+  }
+  pauseBtn?.addEventListener('click', () => { paused ? resume() : pause(); status.textContent = paused ? 'Paused. Resume continues from the current step.' : 'Resumed.'; });
 
   $('[data-ctl="play"]', root)?.addEventListener('click', play);
   $('[data-ctl="reset"]', root)?.addEventListener('click', reset);
@@ -322,7 +374,7 @@ export function mountDemo(root, spec) {
   return {
     api,
     destroy() {
-      runId++; ro.disconnect();
+      halt(); ro.disconnect();
       root.querySelectorAll('[data-panel-animating]').forEach(p => p._panelCleanup?.());
       root.querySelectorAll('.car-track').forEach(t => t._carouselCleanup?.());
       spec.destroy?.();
@@ -330,6 +382,6 @@ export function mountDemo(root, spec) {
       document.body.classList.remove('noscroll');
       root.innerHTML = ''; root.className = ''; delete root.dataset.device;
     },
-    reset,
+    reset, play, pause, resume,
   };
 }
