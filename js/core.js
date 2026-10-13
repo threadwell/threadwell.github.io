@@ -143,6 +143,7 @@ export function mountDemo(root, spec) {
       el.querySelectorAll('[data-panel-animating]').forEach(p => p._panelCleanup?.());
       el.querySelectorAll('.car-track').forEach(t => t._carouselCleanup?.());
       el.innerHTML = spec.views[name](ctx.s, api);
+      el.querySelectorAll('[role="dialog"]').forEach(d => d.setAttribute('aria-modal', 'true'));
       el.querySelectorAll('[data-sk]').forEach(n => { if (scrolls.has(n.dataset.sk)) n.scrollTop = scrolls.get(n.dataset.sk); });
       const now = [...el.querySelectorAll(LAYER)];
       // A menu or dialog that just opened takes focus (the innermost new one wins), for real users only.
@@ -276,6 +277,16 @@ export function mountDemo(root, spec) {
   screen.addEventListener('keydown', e => {
     if (e.isTrusted) halt();
     if (e.key === 'Enter' && e.target.dataset?.enter) { e.preventDefault(); $(e.target.dataset.enter, screen)?.click(); }
+    // A dialog is modal: Tab and Shift+Tab wrap inside it instead of walking into the screen behind it.
+    if (e.key === 'Tab' && !e.ctrlKey && !e.altKey) {
+      const dlg = e.target.closest && e.target.closest('[role="dialog"]');
+      if (dlg) {
+        const tabbable = [...dlg.querySelectorAll('button, input, textarea, select, a[href], [tabindex]')]
+          .filter(x => !x.disabled && x.tabIndex >= 0 && !x.closest('[hidden]') && x.getClientRects().length);
+        const first = tabbable[0], last = tabbable[tabbable.length - 1];
+        if (first && last && (e.shiftKey ? e.target === first : e.target === last)) { e.preventDefault(); (e.shiftKey ? last : first).focus(); }
+      }
+    }
     // Escape closes the innermost open menu, sheet or dialog. Each declares its close action in data-esc.
     if (e.key === 'Escape' && e.isTrusted) {
       const layer = $$('[data-esc]', views[ctx.view]).pop();

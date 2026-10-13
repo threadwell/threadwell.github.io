@@ -44,13 +44,16 @@ export function iconCard(emoji) {
     <button class="txt-btn" type="button" id="iconchange" data-act="studioopen" aria-haspopup="dialog">Change icon</button></div>`;
 }
 
-const cell = (e, on) => `<button class="icell${on ? ' on' : ''}" type="button" data-act="studiopick" data-arg="${esc(e)}" aria-label="Use ${esc(e)}" aria-pressed="${on}">${esc(e)}</button>`;
+const cell = (e, on, stop) => `<button class="icell${on ? ' on' : ''}" type="button" tabindex="${stop ? 0 : -1}" data-act="studiopick" data-arg="${esc(e)}" aria-label="Use ${esc(e)}" aria-pressed="${on}">${esc(e)}</button>`;
 
 /** The emoji grid for a search query, as one fragment (repainted on typing without losing the field's focus). */
 export function emojiResults(query, current) {
   const hits = searchEmoji(query);
   const sections = query.trim() ? [['Results', hits]] : EMOJI_CATEGORIES;
-  return sections.map(([title, list]) => `<h6 class="sec-h">${esc(title)}</h6><div class="igrid">${list.map(e => cell(e, e === current)).join('')}</div>`).join('')
+  // One Tab stop for the whole grid (the picked emoji, else the first); the arrow keys move within it. See the key handler below.
+  const all = sections.flatMap(([, l]) => l), stop = all.includes(current) ? all.indexOf(current) : 0;
+  let i = 0;
+  return sections.map(([title, list]) => `<h6 class="sec-h">${esc(title)}</h6><div class="igrid" role="group" aria-label="${esc(title)}">${list.map(e => cell(e, e === current, i++ === stop)).join('')}</div>`).join('')
     + (query.trim() && !hits.length ? '<p class="caption">No category matches. You can still type any emoji above.</p>' : '');
 }
 
@@ -96,4 +99,26 @@ export function studioActs(ev = () => {}) {
     studiouse: api => { const e = singleEmoji(d(api).studio.typed || ''); if (e) pick(api, e); },
     studiopick: pick,
   };
+}
+
+/* Arrow keys move through the emoji grid (Home / End jump to its ends); Tab leaves it. Installed once. */
+if (typeof document !== 'undefined' && !window.__iconKeys) {
+  window.__iconKeys = true;
+  document.addEventListener('keydown', e => {
+    const cur = e.target && e.target.closest && e.target.closest('.icell'); if (!cur || e.altKey || e.ctrlKey || e.metaKey) return;
+    const cells = [...cur.closest('#iconresults').querySelectorAll('.icell')], i = cells.indexOf(cur);
+    let j = i;
+    if (e.key === 'ArrowRight') j = i + 1; else if (e.key === 'ArrowLeft') j = i - 1;
+    else if (e.key === 'Home') j = 0; else if (e.key === 'End') j = cells.length - 1;
+    else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+      const dir = e.key === 'ArrowDown' ? 1 : -1, r = cur.getBoundingClientRect();
+      const rows = cells.filter(c => dir > 0 ? c.getBoundingClientRect().top > r.top + 4 : c.getBoundingClientRect().top < r.top - 4);
+      const nearestRowTop = rows.length ? (dir > 0 ? Math.min : Math.max)(...rows.map(c => c.getBoundingClientRect().top)) : null;
+      const row = rows.filter(c => Math.abs(c.getBoundingClientRect().top - nearestRowTop) < 4);
+      if (row.length) j = cells.indexOf(row.reduce((a, b) => Math.abs(a.getBoundingClientRect().left - r.left) <= Math.abs(b.getBoundingClientRect().left - r.left) ? a : b));
+    } else return;
+    e.preventDefault();
+    j = Math.max(0, Math.min(cells.length - 1, j));
+    cells.forEach(c => c.tabIndex = -1); cells[j].tabIndex = 0; cells[j].focus();
+  });
 }
