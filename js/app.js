@@ -12,6 +12,7 @@ import threadmarks from './demos/threadmarks.js';
 import findSaved from './demos/find-saved.js';
 import createSpace from './demos/create-space.js';
 import tend from './demos/tend.js';
+import spaceIcons from './demos/space-icons.js';
 import widgets from './demos/widgets.js';
 import enableWidget from './demos/enable-widget.js';
 import configureWidget from './demos/configure-widget.js';
@@ -21,7 +22,7 @@ const GROUPS = [
   { name: 'Messaging', items: [layout, textsize, photos] },
   { name: 'Look and feel', items: [themes] },
   { name: 'Spam protection', items: [spam] },
-  { name: 'Spaces and Threadmarks', items: [threadmarks, findSaved, createSpace, tend] },
+  { name: 'Spaces and Threadmarks', items: [threadmarks, findSaved, createSpace, spaceIcons, tend] },
   { name: 'Widgets and dashboard', items: [widgets, enableWidget, configureWidget, widgetPlaces] },
 ];
 const ALL = GROUPS.flatMap(g => g.items);

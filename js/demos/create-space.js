@@ -15,7 +15,7 @@ export default {
     'Type a name (up to 24 characters), pick a <b>Color</b>, and tap <b>Save</b>.',
   ],
   note: '<strong>You can keep up to 20 Spaces.</strong> In the same Spaces list you can reorder them with ▲ ▼ and star favorites, which move to the front. Templates only choose a starting name and icon, and you can change both.',
-  next: [{ id: 'threadmarks', label: 'Next: Save a message to a Space' }, { id: 'find-saved', label: 'Find my saved messages' }],
+  next: [{ id: 'space-icons', label: 'Give a Space its own icon' }, { id: 'threadmarks', label: 'Next: Save a message to a Space' }, { id: 'find-saved', label: 'Find my saved messages' }],
   start: 'board',
   state: () => boardState(),
   views: {

@@ -282,7 +282,7 @@ const acts = {
   spcancel: a => { a.s.draft = null; a.s.sheet = 'manage'; a.render(); },
   speditsave: a => {
     const d = a.s.draft, sp = spaceById(d.editing); if (!sp || !d.name.trim()) return;
-    sp.name = d.name.trim(); sp.color = d.color; a.s.draft = null; a.s.sheet = 'manage'; a.s.flash = sp.id; a.render();
+    sp.name = d.name.trim(); sp.color = d.color; sp.emoji = d.emoji; a.s.draft = null; a.s.sheet = 'manage'; a.s.flash = sp.id; a.render();
   },
   spdelete: a => { a.s.spDelete = a.s.draft.editing; a.render(); },
   spdeleteno: a => { a.s.spDelete = null; a.render(); },

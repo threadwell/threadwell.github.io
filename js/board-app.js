@@ -2,6 +2,7 @@
 // Every Spaces tutorial (save, find, create, come back later) is built on this so they behave identically.
 // Verified against MessageBoardScreen.kt, BoardChannels.kt, BoardCapture.kt, CustomChannels.kt, ChannelTemplates.kt.
 import { esc } from './core.js';
+import { studioActs } from './icon-studio.js';
 import { ico, statusbar, appbar, THREADS, bubble } from './phone-ui.js';
 import { board, boardHeader, channelBar, channelPanel, conversation, spacesSheet, manageDialog, templateDialog, editDialog, OUT_OF_SCOPE } from './board.js';
 import { seedSpaces, orderedSpaces, countFor, TEMPLATES, COLORS, MAX_SPACES, SAVED_TEXT } from './space-model.js';
@@ -172,6 +173,7 @@ export function boardActs(on = {}) {
   const ev = (api, name, d) => on.event && on.event(api, name, d);
   const flowReturn = api => { api.s.sheet = api.s.flow === 'save' ? null : 'manage'; };
   return {
+    ...studioActs(ev),
     thread: (api, i) => { api.s.thread = Number(i); api.s.mode = 'chat'; api.s.channel = 'CHAT'; api.s.sheet = null; api.render(); ev(api, 'thread'); },
     channel: (api, key) => {
       api.s.sheet = null;

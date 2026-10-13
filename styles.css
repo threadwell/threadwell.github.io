@@ -823,3 +823,17 @@ progress { width: 100%; height: 8px; border-radius: 4px; accent-color: var(--tea
 .demo-steps li[aria-current]::before { outline: 3px solid var(--teal); outline-offset: 2px; }
 @media (max-width: 1100px) { .demo-ctl, .demo-now { position: static; } }
 @media (min-width: 1101px) and (min-height: 760px) { .pg-demo { position: sticky; top: 96px; align-self: start; } }
+
+/* Space icon studio (js/icon-studio.js) */
+.iconcard { gap: 12px; justify-content: flex-start; }
+.iconcard .iconprev { font-size: 28px; width: 48px; height: 48px; display: grid; place-items: center; border-radius: 50%; background: var(--surface, #fff); }
+.iconcard .iconlbl { display: flex; flex-direction: column; flex: 1; min-width: 0; }
+.stabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line, rgba(128,128,128,.3)); margin-bottom: 6px; }
+.stab { flex: 1; background: none; border: 0; padding: 10px 4px; min-height: 44px; font: inherit; color: inherit; border-bottom: 2px solid transparent; cursor: pointer; }
+.stab.on { border-bottom-color: currentColor; font-weight: 600; }
+.stab[aria-disabled="true"] { opacity: .55; }
+.igrid { display: flex; flex-wrap: wrap; gap: 2px; }
+.icell { width: 44px; height: 44px; font-size: 22px; background: none; border: 0; border-radius: 10px; cursor: pointer; }
+.icell.on { background: var(--panel, rgba(128,128,128,.2)); outline: 2px solid currentColor; }
+.rowf { display: flex; gap: 6px; align-items: center; }
+.rowf .field { flex: 1; min-width: 0; }

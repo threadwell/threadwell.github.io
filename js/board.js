@@ -2,6 +2,7 @@
 // Structure and labels follow MessageBoardScreen.kt (RecipientRail, BoardTools, BoardHeader, CompactChannelBar,
 // LibraryHeader), CustomChannels.kt (Spaces dialogs) and ChannelTemplates.kt (New Space).
 import { esc } from './core.js';
+import { iconCard, studioDialog } from './icon-studio.js';
 import { ico, statusbar, THREADS, bubble, photo } from './phone-ui.js';
 import { TEMPLATES, COLORS, NAME_MAX, MAX_SPACES, countFor, orderedSpaces } from './space-model.js';
 
@@ -192,10 +193,10 @@ export function editDialog(s) {
   return `<div class="scrim"><div class="dialog" role="dialog" aria-label="New Space" data-esc="cancelflow"><h5>New Space</h5>
     <label class="flabel" for="spname">Name</label>
     <input id="spname" class="field" type="text" maxlength="${NAME_MAX}" value="${esc(d.name)}" data-act="draftname" data-enter="#spsave" autocomplete="off">
-    <div class="iconcard"><span class="caption" style="margin:0">Icon</span><span class="iconprev" aria-hidden="true">${d.emoji}</span></div>
+    ${iconCard(d.emoji)}
     <span class="caption" style="margin:4px 0 0">Color</span>
     <div class="sws" role="group" aria-label="Color">${COLORS.map(([c, n]) => `<button type="button" class="sw${d.color === c ? ' on' : ''}" style="background:${c}" data-act="draftcolor" data-arg="${c}" aria-label="${n}" aria-pressed="${d.color === c}"></button>`).join('')}</div>
-    <div class="dlg-actions"><button class="txt-btn" type="button" data-act="cancelflow">Cancel</button><button class="txt-btn strong" type="button" id="spsave" data-act="savespace" ${d.name.trim() ? '' : 'disabled'}>Save</button></div></div></div>`;
+    <div class="dlg-actions"><button class="txt-btn" type="button" data-act="cancelflow">Cancel</button><button class="txt-btn strong" type="button" id="spsave" data-act="savespace" ${d.name.trim() ? '' : 'disabled'}>Save</button></div></div></div>${studioDialog(d)}`;
 }
 
 /* ----- Photo picker (stands in for Android's system photo picker) ----- */

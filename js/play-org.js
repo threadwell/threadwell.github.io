@@ -4,6 +4,7 @@
 // Important empty states), DeleteSpamScreen.kt and MessageThreadScreen.kt (Not spam, Always allow, Restore once, the
 // "flagged as spam" banner and its category line) and SpamDetector.kt (category names).
 import { esc } from './core.js';
+import { iconCard, studioDialog } from './icon-studio.js';
 import { ico, THREADS, photo, PHOTO_ALT, statusbar, appbar, settingsBody, label, caption } from './phone-ui.js';
 import { COLORS, NAME_MAX } from './space-model.js';
 import { activeNotes } from './notes.js';
@@ -113,7 +114,7 @@ export function editSpaceDlg(s) {
     <div class="dlg-scroll" tabindex="0" data-sk="spedit">
       <label class="flabel" for="spname">Name</label>
       <input id="spname" class="field" type="text" maxlength="${NAME_MAX}" value="${esc(d.name)}" data-act="draftname" data-enter="#spsave" autocomplete="off">
-      <div class="iconcard"><span class="caption" style="margin:0">Icon</span><span class="iconprev" aria-hidden="true">${esc(d.emoji)}</span></div>
+      ${iconCard(d.emoji)}
       <span class="caption" style="margin:4px 0 0">Color</span>
       <div class="sws" role="group" aria-label="Color">${COLORS.map(([c, n]) => `<button type="button" class="sw${d.color === c ? ' on' : ''}" style="background:${c}" data-act="draftcolor" data-arg="${c}" aria-label="${n}" aria-pressed="${d.color === c}"></button>`).join('')}</div>
       <div class="menulist">
@@ -121,7 +122,7 @@ export function editSpaceDlg(s) {
         <button class="txt-btn left" type="button" ${why('Merging Spaces is not in the playground yet.')}>Merge into another Space…</button>
         <button class="txt-btn left" type="button" ${why('Export opens the phone’s share sheet, so it is not simulated here.')}>Export as a list…</button>
         <button class="txt-btn left danger" type="button" id="spdelete" data-act="spdelete">Delete Space</button></div></div>
-    <div class="dlg-actions"><button class="txt-btn" type="button" data-act="spcancel">Cancel</button><button class="txt-btn strong" type="button" id="spsave" data-act="speditsave" ${d.name.trim() ? '' : 'disabled'}>Save</button></div></div></div>`;
+    <div class="dlg-actions"><button class="txt-btn" type="button" data-act="spcancel">Cancel</button><button class="txt-btn strong" type="button" id="spsave" data-act="speditsave" ${d.name.trim() ? '' : 'disabled'}>Save</button></div></div></div>${studioDialog(d)}`;
 }
 export function deleteSpaceDlg(s) {
   const sp = s.spaces.find(x => x.id === s.spDelete);
