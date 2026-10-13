@@ -4,11 +4,15 @@
 # so edits here take effect without a new app release (edit it in the website repo). One rule per line;
 # everything after '#' is a comment. A hit is a confident, reportable signal.
 #
+# Limits (the app rejects the WHOLE feed, and keeps the previous one, if any line breaks these):
+#   64 KiB total, 512 rules, 32 regexes, 1024 chars per line; keywords 4-256 chars; a regex may not match empty text;
+#   senders are digits (optional + and trailing *) or an email address; domains must not be a bare public suffix.
+#
 # Rule types:
 #   domain:<host>            link to this host or any subdomain
 #   sender:<address>         exact sender; trailing '*' matches a prefix
 #   keyword:<text>           case-insensitive substring of the message
-#   regex:<java regex>       matched against the raw message body
+#   regex:<RE2 regex>        matched against the raw message body (no backreferences or lookaround)
 #
 # ---------------------------------------------------------------------------
 
