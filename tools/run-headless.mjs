@@ -1,4 +1,5 @@
-// Run with: node tools/run-headless.mjs [--only tutorials|demos|a11y] [--reduced] [--width 390] [--height 844]
+// Run with: node tools/run-headless.mjs [--only tutorials|demos|a11y|keyboard] [--reduced] [--width 390] [--height 844] [--root <folder>]
+// --root runs the same checks against another copy of the site (for example a design variant). Default: this repository.
 // Serves this folder from a throwaway local server, opens it in headless Chrome (or Edge), and evaluates
 // tools/headless-checks.js in the page. Nothing leaves this machine. Exit code 1 if any check fails.
 import http from 'node:http';
@@ -8,7 +9,8 @@ import { tmpdir } from 'node:os';
 import { spawn } from 'node:child_process';
 
 const arg = (k, d) => { const i = process.argv.indexOf('--' + k); return i < 0 ? d : (process.argv[i + 1]?.startsWith('--') || process.argv[i + 1] === undefined ? true : process.argv[i + 1]); };
-const root = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+const toolsRoot = new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1');
+const root = typeof arg('root', false) === 'string' ? normalize(arg('root', false)) : toolsRoot;
 const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.png': 'image/png', '.webp': 'image/webp', '.txt': 'text/plain', '.ico': 'image/x-icon' };
 
 const server = http.createServer((req, res) => {
@@ -58,7 +60,7 @@ try {
   await send('Page.navigate', { url: base });
   await new Promise(r => setTimeout(r, 2500));
   const only = arg('only', '');
-  const checks = readFileSync(join(root, 'tools/headless-checks.js'), 'utf8');
+  const checks = readFileSync(join(toolsRoot, 'tools/headless-checks.js'), 'utf8');
   await send('Runtime.evaluate', { expression: `window.__opts = ${JSON.stringify({ only: typeof only === 'string' ? only : '' })}` });
   console.log(`Chrome: ${chromePath.split('/').slice(-3).join('/')}  viewport ${width}x${height}${arg('reduced', false) ? '  reduced motion' : ''}`);
   let results = [], errors = [];
