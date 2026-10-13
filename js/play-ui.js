@@ -209,7 +209,7 @@ function tendView(s) {
 /* ---------- Today ---------- */
 function todayFull(s) {
   const recent = activeNotes(s).sort((a, b) => b.at - a.at).slice(0, 4);
-  return todayView(s) + `<div class="chips" role="group" aria-label="Quick capture"><button type="button" class="chip" id="newcheck" data-act="capture" data-arg="CHECKLIST">☑ New checklist</button></div>
+  return todayView(s) + `<div class="chips" role="group" aria-label="Add to Threadwell"><button type="button" class="chip" id="newcheck" data-act="capture" data-arg="CHECKLIST">☑ New checklist</button></div>
     <h6 class="sec-h">Recent captures</h6>${recent.length ? recent.map(n => { const cl = parseChecklist(n.body); const sp = spaceOf(s, n.space); return `<button class="space-row" type="button" data-act="openspace" data-arg="${sp.id}"><b>${cl ? 'Checklist' : 'Note'}</b><span>${cl ? `${cl.length} items` : esc(n.body.slice(0, 30))} · ${sp.emoji} ${esc(sp.name)}</span></button>`; }).join('') : '<p class="caption pad">Nothing captured yet.</p>'}`;
 }
 

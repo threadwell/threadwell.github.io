@@ -74,7 +74,7 @@ export function channelBar(s, current = 'CHAT', { live = ['CHAT'], flash = null,
   const extra = customs.length - shown.length;
   const builtin = [['CHAT', 'Messages'], ['LINKS', 'Links'], ['ATTACHMENTS', 'Attachments'], ['IMPORTANT', 'Important']];
   const btn = (key, text, on, isLive, extraCls = '') => `<button type="button" class="chip${on ? ' on' : ''}${extraCls}" ${isLive ? `data-act="channel" data-arg="${esc(key)}"` : `aria-disabled="true" tabindex="-1" title="${OUT_OF_SCOPE}"`} aria-pressed="${on}">${text}</button>`;
-  return `<div class="chbar" role="group" aria-label="Channels">
+  return `<div class="chbar" role="group" aria-label="Spaces">
     ${builtin.map(([k, t]) => btn(k, t, k === current, live.includes(k))).join('')}
     ${shown.map(sp => { const n = countFor(s, sp.id, s.thread); const key = 'c:' + sp.id; return btn(key, `${sp.emoji} ${esc(sp.name)}${n ? ' ' + n : ''}`, key === current, live.includes('spaces-in-chat') || live.includes(key), flash === sp.id ? ' flash' : ''); }).join('')}
     <button type="button" class="chip${more ? ' on' : ''}${flash && !shown.some(x => x.id === flash) ? ' flash' : ''}" id="morebtn" data-act="more" aria-haspopup="dialog">${extra > 0 ? `More (${extra})` : 'More'} ▾</button>

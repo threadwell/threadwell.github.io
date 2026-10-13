@@ -35,7 +35,7 @@ export default {
         if (!d.length) return api.callout('Nothing was saved because no Space was ticked. Tick one and tap Save.');
         const sp = d[0], inline = api.s.spaces.slice(0, 3).some(x => x.id === sp.id);
         api.step(3);
-        api.callout(`Saved to <b>${where(sp)}</b>. In the app, a brief message at the bottom says <b>Saved to ${sp.name}</b> with an <b>Open Space</b> button. ${inline ? 'Its chip is highlighted in the channel bar.' : 'It is behind <b>More</b> in the channel bar (highlighted), and in <b>Browse Spaces</b>.'} To find it later: <b>Browse Spaces → ${where(sp)}</b>.`);
+        api.callout(`Saved to <b>${where(sp)}</b>. In the app, a brief message at the bottom says <b>Saved to ${sp.name}</b> with an <b>Open Space</b> button. ${inline ? 'Its chip is highlighted in the Space bar.' : 'It is behind <b>More</b> in the Space bar (highlighted), and in <b>Browse Spaces</b>.'} To find it later: <b>Browse Spaces → ${where(sp)}</b>.`);
       }
       if (name === 'library') api.callout('<b>My Spaces</b> lists every Space with what you saved from every chat. Open one to see it.');
       if (name === 'libspace') { api.step(4); api.callout('This view shows the Space across <b>all conversations</b>, so each item names the chat it came from. Tap <b>Show in chat</b> (swipe the action row sideways if it is hidden) to go back to the message.'); }

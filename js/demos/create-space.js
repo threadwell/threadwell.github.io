@@ -9,7 +9,7 @@ export default {
   title: 'Create a Space',
   answer: 'A Space is your own folder for messages, links and photos from any chat. Make one from a template or start blank, give it a name and a color, and it is ready to save into.',
   steps: [
-    'In a conversation, open the Space list: tap <b>More</b> in the channel bar, or on a wide screen look at the <b>Browse Spaces</b> list beside the conversation.',
+    'In a conversation, open the Space list: tap <b>More</b> in the Space bar, or on a wide screen look at the <b>Browse Spaces</b> list beside the conversation.',
     'Tap <b>＋ New / manage Spaces</b> (or <b>＋ New / manage</b> in the wide list), then <b>＋ New Space</b>.',
     'Choose <b>Blank Space</b> or one of the templates, such as <b>Travel</b> or <b>Gift ideas</b>.',
     'Type a name (up to 24 characters), pick a <b>Color</b>, and tap <b>Save</b>.',
@@ -31,7 +31,7 @@ export default {
       if (name === 'created') {
         const sp = api.s.spaces.find(x => x.id === d);
         api.step(4);
-        api.callout(`Created <b>${sp.emoji} ${sp.name}</b>. Creating a Space shows no message of its own (only saving something into a Space does), so this note is part of the tutorial. It is now in the Spaces list${api.s.spaces.length > 3 ? ' and under <b>More</b> in the channel bar' : ' and in the channel bar'}, and in <b>Browse Spaces</b>.`);
+        api.callout(`Created <b>${sp.emoji} ${sp.name}</b>. Creating a Space shows no message of its own (only saving something into a Space does), so this note is part of the tutorial. It is now in the Spaces list${api.s.spaces.length > 3 ? ' and under <b>More</b> in the Space bar' : ' and in the Space bar'}, and in <b>Browse Spaces</b>.`);
       }
     },
   }),
