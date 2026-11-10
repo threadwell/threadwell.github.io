@@ -17,8 +17,13 @@ import widgets from './demos/widgets.js';
 import enableWidget from './demos/enable-widget.js';
 import configureWidget from './demos/configure-widget.js';
 import widgetPlaces from './demos/widget-places.js';
+import categories from './demos/categories.js';
+import pinned from './demos/pinned.js';
+import editPhoto from './demos/edit-photo.js';
+import dateJump from './demos/date-jump.js';
 
 const GROUPS = [
+  { name: 'New in this update', items: [categories, pinned, editPhoto, dateJump] },
   { name: 'Messaging', items: [layout, textsize, photos] },
   { name: 'Look and feel', items: [themes] },
   { name: 'Spam protection', items: [spam] },
