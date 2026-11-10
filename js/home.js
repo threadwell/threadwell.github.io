@@ -3,6 +3,7 @@
 import { showcaseHtml, mountShowcase } from './showcase.js';
 import { freshState } from './store.js';
 import { tlist, playBoard } from './play-ui.js';
+import { whatsNewHtml } from './whats-new.js';
 
 const arrow = '<span aria-hidden="true">↗</span>';
 function preview(scene = 'plan') {
@@ -38,6 +39,7 @@ export const homeHtml = () => `
     </div>
   </section>
   <div class="value-strip" aria-label="Threadwell essentials"><span>Made for Android</span><i aria-hidden="true">✳</i><span>Your conversations, organized</span><i aria-hidden="true">✳</i><span>Spam detection on your phone</span><i aria-hidden="true">✳</i><span>A look that’s yours</span></div>
+  ${whatsNewHtml()}
   <section class="product-story" aria-labelledby="story-title">
     <div class="section-topline"><span class="kicker">01 / A PLACE FOR YOUR PLANS</span><span class="section-aside">Less searching. More getting on with it.</span></div>
     <div class="story-intro"><h2 id="story-title">The good stuff.<br><em>All together.</em></h2><p>A booking in one chat. A packing list in another.<br>Bring the details into a Space, and turn “we should” into a plan.</p></div>
