@@ -1138,3 +1138,4 @@ body:not(.landing-page) .top .tag {
   .fr-art .landing-device { transform: scale(.28); }
 }
 @media (prefers-reduced-motion: reduce) { .fr-dots i, .fr-copy { transition: none; } }
+.fr-soon { display: inline-block; margin-bottom: 4px; padding: 2px 8px; border-radius: 999px; background: var(--lime); color: var(--forest); font-size: 12px; font-weight: 700; }

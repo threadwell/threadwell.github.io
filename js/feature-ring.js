@@ -20,12 +20,12 @@ const screen = (spec, view, over = {}) => freeze(spec.views[view]({ ...spec.stat
 // Facts follow each tutorial (and the app's CLAUDE.md through them).
 const FEATURES = [
   { id: 'threadmarks', name: 'Spaces and Threadmarks', line: 'Save the part of a conversation worth keeping into a Space, next to its checklist.', art: 'board' },
-  { id: 'message-categories', name: 'Message categories', line: 'Personal, Money, Codes, Updates and Promotions tabs, sorted on your phone.', art: () => screen(categories, 'home', { on: true, tab: 'Codes' }) },
-  { id: 'pinned-chats', name: 'Pinned chats, your way', line: 'Pins stay in the order you choose, as rows or a row of photos.', art: () => screen(pinned, 'home', { style: 'photos', sort: 'custom' }) },
+  { id: 'message-categories', soon: true, name: 'Message categories', line: 'Personal, Money, Codes, Updates and Promotions tabs, sorted on your phone.', art: () => screen(categories, 'home', { on: true, tab: 'Codes' }) },
+  { id: 'pinned-chats', soon: true, name: 'Pinned chats, your way', line: 'Pins stay in the order you choose, as rows or a row of photos.', art: () => screen(pinned, 'home', { style: 'photos', sort: 'custom' }) },
   { id: 'widgets', name: 'Widgets', line: 'Weather, calendar, countdowns and more under your Messages header. All off until you add them.', art: () => screen(widgets, 'home', widgetState({ en: { weather: true, countdown: true } })) },
   { id: 'spam-rules', name: 'Spam protection', line: 'Checks run on your phone. Flagged texts wait in Spam, where you can bring them back.', art: () => screen(spam, 'spamfolder', { keywords: ['free cruise', 'claim'] }) },
-  { id: 'edit-photo', name: 'Edit before you send', line: 'Open a photo or video in your editor and send the edited copy.', art: () => screen(editPhoto, 'thread', { pulse: '' }), bottom: true },
-  { id: 'go-to-date', name: 'Go to a date', line: 'Jump to the first message, or to any day, in a long conversation.', art: () => screen(dateJump, 'thread', { target: 3, pulse: '' }) },
+  { id: 'edit-photo', soon: true, name: 'Edit before you send', line: 'Open a photo or video in your editor and send the edited copy.', art: () => screen(editPhoto, 'thread', { pulse: '' }), bottom: true },
+  { id: 'go-to-date', soon: true, name: 'Go to a date', line: 'Jump to the first message, or to any day, in a long conversation.', art: () => screen(dateJump, 'thread', { target: 3, pulse: '' }) },
   { id: 'themes', name: 'Themes', line: 'Try a theme on in a full preview, then make it yours with your own colors.', art: () => screen(themes, 'gallery') },
 ];
 
@@ -36,7 +36,7 @@ export function featureRingHtml(boardPreview) {
     catch { art = ''; }
     return `<li class="fr-card" data-i="${i}">
       <div class="fr-art" aria-hidden="true">${art}</div>
-      <div class="fr-copy"><h3>${esc(f.name)}</h3><p>${esc(f.line)}</p><a href="#${f.id}">Try it<span class="sr-only">: ${esc(f.name)}</span></a></div></li>`;
+      <div class="fr-copy">${f.soon ? '<span class="fr-soon">Next update</span>' : ''}<h3>${esc(f.name)}</h3><p>${esc(f.line)}</p><a href="#${f.id}">Try it<span class="sr-only">: ${esc(f.name)}</span></a></div></li>`;
   }).join('');
   return `<section class="fr" aria-labelledby="fr-title" style="--n:${FEATURES.length}">
     <div class="fr-stage">

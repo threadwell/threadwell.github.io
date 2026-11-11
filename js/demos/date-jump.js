@@ -20,7 +20,7 @@ const PICKS = [[0, 'Mar 3'], [1, 'Apr 18'], [2, 'May 9'], [3, 'Jun 7'], [4, 'Aug
 export default {
   id: 'go-to-date',
   title: 'Jump to the first message, or to a date, in a long conversation',
-  answer: 'Open the ⋮ menu in a conversation and choose Go to first message or Go to a date. Threadwell loads the older messages for you and lands on the right spot.',
+  answer: 'Coming in the next update. Open the ⋮ menu in a conversation and choose Go to first message or Go to a date. Threadwell loads the older messages for you and lands on the right spot.',
   steps: [
     'In a conversation, tap <b>⋮</b> (More options) at the top.',
     'Choose <b>Go to first message</b> to go right back to the start.',

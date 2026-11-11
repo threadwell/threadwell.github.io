@@ -51,7 +51,7 @@ function moveDialog(s) {
 export default {
   id: 'message-categories',
   title: 'Sort messages into Personal, Money, Codes, Updates and Promotions',
-  answer: 'Turn on Message categories and tabs appear above your conversations. Codes, bank alerts, deliveries and sales sort themselves, and people you know stay in Personal.',
+  answer: 'Coming in the next update. Turn on Message categories and tabs appear above your conversations. Codes, bank alerts, deliveries and sales sort themselves, and people you know stay in Personal.',
   steps: [
     'Tap the <b>Settings</b> gear, then open <b>Messaging &amp; notifications</b>.',
     'Turn on <b>Message categories</b> and go back.',

@@ -10,7 +10,7 @@ const FILTERS = [['none', 'Original'], ['warm', 'Warm'], ['mono', 'Mono'], ['viv
 export default {
   id: 'edit-photo',
   title: 'Edit a photo or video before I send it',
-  answer: 'After you add a photo or video, tap Edit on its preview. It opens in your phone\'s own editor, and the edited version is what gets sent.',
+  answer: 'Coming in the next update. After you add a photo or video, tap Edit on its preview. It opens in your phone\'s own editor, and the edited version is what gets sent.',
   steps: [
     'In a conversation, add a photo with <b>+</b> as usual. (Here, one is already added.)',
     'Tap <b>Edit</b> at the bottom left of the preview above the message bar.',

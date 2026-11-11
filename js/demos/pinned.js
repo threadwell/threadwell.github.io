@@ -62,7 +62,7 @@ const move = (api, id, d) => {
 export default {
   id: 'pinned-chats',
   title: 'Keep pinned chats in my own order, or show them as photos',
-  answer: 'Pinned chats can stay exactly where you put them instead of jumping around when a new text arrives, and they can show as a row of contact photos at the top of your inbox.',
+  answer: 'Coming in the next update. Pinned chats can stay exactly where you put them instead of jumping around when a new text arrives, and they can show as a row of contact photos at the top of your inbox.',
   steps: [
     'Tap the <b>Settings</b> gear, then open <b>Messaging &amp; notifications</b>.',
     'Under <b>Pinned conversations</b>, pick <b>Photos</b> or <b>Rows with previews</b>, and pick <b>My order</b> so pins stay put. Then go back.',
