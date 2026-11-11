@@ -4,6 +4,7 @@ import { showcaseHtml, mountShowcase } from './showcase.js';
 import { freshState } from './store.js';
 import { tlist, playBoard } from './play-ui.js';
 import { whatsNewHtml } from './whats-new.js';
+import { featureRingHtml, mountFeatureRing } from './feature-ring.js';
 
 const arrow = '<span aria-hidden="true">↗</span>';
 function preview(scene = 'plan') {
@@ -46,6 +47,7 @@ export const homeHtml = () => `
     <div class="product-stage"><div class="stage-toolbar"><span><span class="live-dot"></span> A closer look at Threadwell</span><div class="scene-switch" role="group" aria-label="Choose product preview"><button type="button" data-scene="chat" aria-pressed="false">The conversation</button><button type="button" data-scene="plan" aria-pressed="true">The plan</button></div></div><div id="landing-preview">${preview()}</div><div class="stage-caption"><p id="scene-caption" role="status">Saved messages and your next steps, together in one Space.</p><a href="#checklist">Make your own checklist ${arrow}</a></div></div>
   </section>
   ${showcaseHtml()}
+  ${featureRingHtml(() => preview('plan'))}
   <section class="feature-duo" aria-label="More room, less noise">
     <article class="quiet-feature"><p class="kicker">02 / A LITTLE PEACE OF MIND</p><div class="shield-art" aria-hidden="true"><svg viewBox="0 0 80 90"><path d="M40 5 70 17v24c0 20-14 35-30 43C24 76 10 61 10 41V17Z"/><path d="m25 43 10 10 21-23"/></svg><span>On-device detection</span></div><h2>Keep the plans.<br><em>Quiet the noise.</em></h2><p>Spam protection runs on your phone. Review what was flagged and bring a real conversation back when you need to.</p><a class="text-link" href="#spam-rules">See how spam protection works ${arrow}</a></article>
     <article class="room-feature"><p class="kicker">03 / ROOM TO MAKE IT YOURS</p><div class="layout-art" aria-hidden="true"><div class="mini-phone"><i></i><b></b><b></b><b></b></div><span>→</span><div class="mini-fold"><aside><i></i><i></i><i></i></aside><div><b></b><b></b><b></b></div></div></div><h2>A familiar inbox.<br><em>A wider possibility.</em></h2><p>Switch to Threadwell view. Open up your Spaces on a wider screen, tuck the panels away, or find a theme that feels like you.</p><a class="text-link" href="#explore">Find your view ${arrow}</a></article>
@@ -57,6 +59,7 @@ export const homeHtml = () => `
 export function mountHome(root) {
   root.innerHTML = homeHtml(); root.className = 'is-home';
   const showcase = mountShowcase(root);
+  const ring = mountFeatureRing(root);
   const onChange = e => {
     if (!e.target.matches('.hero-checks input')) return;
     root.querySelector('#hero-progress').textContent = `${root.querySelectorAll('.hero-checks input:checked').length} of 3 ready`;
@@ -68,5 +71,5 @@ export function mountHome(root) {
     root.querySelector('#scene-caption').textContent = button.dataset.scene === 'plan' ? 'Saved messages and your next steps, together in one Space.' : 'The conversation stays a conversation. Save the parts you want to keep.';
   };
   root.addEventListener('change', onChange); root.addEventListener('click', onClick);
-  return { destroy() { showcase.destroy(); root.removeEventListener('change', onChange); root.removeEventListener('click', onClick); root.innerHTML = ''; root.className = ''; } };
+  return { destroy() { showcase.destroy(); ring.destroy(); root.removeEventListener('change', onChange); root.removeEventListener('click', onClick); root.innerHTML = ''; root.className = ''; } };
 }
