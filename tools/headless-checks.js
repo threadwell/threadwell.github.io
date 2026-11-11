@@ -26,7 +26,7 @@
   /* ---------- standalone tutorials ---------- */
   if (!opts.only || opts.only === 'tutorials') {
     const ids = [...new Set($$('a[href^="#"]').map(a => a.getAttribute('href').slice(1)))]
-      .filter(h => h && !['home', 'explore', 'guided', 'checklist', 'what-is', 'main', 'stage', 'personalize', 'photo-layouts'].includes(h) && !/^what/.test(h));
+      .filter(h => h && !['home', 'explore', 'guided', 'checklist', 'what-is', 'main', 'stage', 'personalize', 'photo-layouts', 'testers'].includes(h) && !/^what/.test(h));
     // Showcase links that open the playground at a starter rather than a tutorial.
     for (const [route, expect] of [['personalize', /theme|appearance/i], ['photo-layouts', /photo|appearance/i], ['checklist', /checklist|capture|add to threadwell/i]]) {
       const e0 = errors.length;

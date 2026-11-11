@@ -52,8 +52,27 @@ export const homeHtml = () => `
     <article class="quiet-feature"><p class="kicker">02 / A LITTLE PEACE OF MIND</p><div class="shield-art" aria-hidden="true"><svg viewBox="0 0 80 90"><path d="M40 5 70 17v24c0 20-14 35-30 43C24 76 10 61 10 41V17Z"/><path d="m25 43 10 10 21-23"/></svg><span>On-device detection</span></div><h2>Keep the plans.<br><em>Quiet the noise.</em></h2><p>Spam protection runs on your phone. Review what was flagged and bring a real conversation back when you need to.</p><a class="text-link" href="#spam-rules">See how spam protection works ${arrow}</a></article>
     <article class="room-feature"><p class="kicker">03 / ROOM TO MAKE IT YOURS</p><div class="layout-art" aria-hidden="true"><div class="mini-phone"><i></i><b></b><b></b><b></b></div><span>→</span><div class="mini-fold"><aside><i></i><i></i><i></i></aside><div><b></b><b></b><b></b></div></div></div><h2>A familiar inbox.<br><em>A wider possibility.</em></h2><p>Switch to Threadwell view. Open up your Spaces on a wider screen, tuck the panels away, or find a theme that feels like you.</p><a class="text-link" href="#explore">Find your view ${arrow}</a></article>
   </section>
+  <section class="testers" id="testers" aria-labelledby="testers-title">
+    <div class="testers-copy">
+      <h2 id="testers-title" tabindex="-1">Help test Threadwell</h2>
+      <p>Threadwell is in a closed test on Google Play before it opens to everyone. Testers get each new version first and help decide what gets fixed next.</p>
+    </div>
+    <div class="testers-steps">
+      <ol>
+        <li><strong>Join the testers group.</strong> <a href="https://groups.google.com/g/threadwell-testers" target="_blank" rel="noopener">groups.google.com/g/threadwell-testers</a>. You need a Google account.</li>
+        <li><strong>Opt in on Google Play</strong>, then install Threadwell from the Play Store. <a href="https://play.google.com/apps/testing/app.threadwell.mobile" target="_blank" rel="noopener">play.google.com/apps/testing/app.threadwell.mobile</a>. This link starts working once Google approves the test, which is in review now.</li>
+      </ol>
+      <h3>What testing asks of you</h3>
+      <ul>
+        <li>An Android phone.</li>
+        <li>Setting Threadwell as your default texting app while you test. You can switch back at any time in Android settings.</li>
+        <li>Staying opted in for 14 days. Google requires this before the app can open to everyone.</li>
+        <li>Telling us what works and what doesn't: <span class="addr">support.threadwell@gmail.com</span></li>
+      </ul>
+    </div>
+  </section>
   <section class="closing-invite"><p class="kicker">LESS WATCHING. MORE TRYING.</p><h2>A small space.<br><em>Lots of possibilities.</em></h2><p>Make a list. Change the theme. Send a pretend text.<br>The best way to get Threadwell is to make it yours.</p><a class="editorial-btn" href="#explore">Step inside the playground ${arrow}</a><span class="micro">Sample conversations. Real things to click.</span></section>
-  <footer class="landing-footer"><a class="footer-brand" href="#home">Threadwell<span>Keep a little more of what matters.</span></a><nav aria-label="Footer"><a href="#guided">Help & demos</a><a href="privacy.html">Website privacy</a><a href="app-privacy.html">App privacy</a><a href="terms.html">Terms</a><a href="https://buymeacoffee.com/threadwell" target="_blank" rel="noopener">Buy me a coffee ☕</a></nav><span>Made for the conversations that make a life.</span></footer>
+  <footer class="landing-footer"><a class="footer-brand" href="#home">Threadwell<span>Keep a little more of what matters.</span></a><nav aria-label="Footer"><a href="#testers">Become a tester</a><a href="#guided">Help & demos</a><a href="privacy.html">Website privacy</a><a href="app-privacy.html">App privacy</a><a href="terms.html">Terms</a><a href="https://buymeacoffee.com/threadwell" target="_blank" rel="noopener">Buy me a coffee ☕</a></nav><span>Made for the conversations that make a life.</span></footer>
 </div>`;
 
 export function mountHome(root) {

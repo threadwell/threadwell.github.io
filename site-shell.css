@@ -80,3 +80,4 @@ body:not(.landing-page) .phone { box-shadow: 0 24px 48px -24px #153c354d; }
   .pg-modes { gap: 8px; }
   .pg-modes button { padding: 12px; }
 }
+.doc .doc-foot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--line); }
