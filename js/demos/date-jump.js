@@ -42,7 +42,7 @@ export default {
         ${day.msgs.map(([text, sent], k) => `<div class="b ${sent ? 'sent' : 'recv'}${s.target === day.d && k === 0 ? ' flash' : ''}">${esc(text)}</div>`).join('')}`).join('')}
       </div>
       <div class="composer">${iconBtn('noop', 'Add attachment', ico.plus)}<span class="field fake" aria-hidden="true">Text message</span></div>
-      ${s.menu ? `<div class="menu top" role="menu" aria-label="More options" data-esc="more">
+      ${s.menu ? `<div class="menu menu-down" role="menu" aria-label="More options" data-esc="more">
         <button class="mi" type="button" role="menuitem" aria-disabled="true" tabindex="-1">Search</button>
         <button class="mi" type="button" role="menuitem" data-act="first" id="mi-first">Go to first message</button>
         <button class="mi" type="button" role="menuitem" data-act="pickdate" id="mi-date">Go to a date</button>
