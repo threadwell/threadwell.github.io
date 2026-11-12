@@ -1,0 +1,7 @@
+# Threadwell website. Everything public may be crawled except internal notes and tooling.
+# The spam feed the app downloads (/spam-feed.txt) stays reachable; robots.txt never blocks fetches by the app.
+User-agent: *
+Disallow: /docs/
+Disallow: /tools/
+
+Sitemap: https://threadwell.github.io/sitemap.xml
