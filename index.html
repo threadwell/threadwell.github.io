@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Threadwell: less noise, more life</title>
-  <meta name="description" content="Threadwell is a texting app for Android that keeps your threads, plans, checklists and threads to tend within reach. Try an interactive playground in your browser, with sample messages and nothing sent.">
+  <title>Threadwell: Android texting app with spam blocking</title>
+  <meta name="description" content="Threadwell is an SMS and MMS texting app for Android with on-device spam blocking, Spaces for your plans, checklists and reminders. An alternative to your default messaging app. Try it in your browser.">
   <meta name="theme-color" content="#f4f2eb">
     <link rel="canonical" href="https://threadwell.github.io/">
   <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
@@ -12,6 +12,7 @@
 
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Threadwell">
+  <meta property="og:url" content="https://threadwell.github.io/">
   <meta property="og:title" content="Threadwell: less noise, more life">
   <meta property="og:description" content="A texting app for Android. Try making a checklist, changing the theme or exploring Spaces in an interactive browser playground.">
   <meta property="og:image" content="https://threadwell.github.io/assets/og-image.png">
@@ -23,6 +24,39 @@
   <meta name="twitter:description" content="A texting app for Android. Try an interactive playground in your browser.">
   <meta name="twitter:image" content="https://threadwell.github.io/assets/og-image.png">
 
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://threadwell.github.io/#website",
+        "name": "Threadwell",
+        "url": "https://threadwell.github.io/"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "@id": "https://threadwell.github.io/#app",
+        "name": "Threadwell",
+        "description": "An SMS and MMS texting app for Android with on-device spam blocking, Spaces for plans, checklists and reminders.",
+        "url": "https://threadwell.github.io/",
+        "image": "https://threadwell.github.io/assets/og-image.png",
+        "operatingSystem": "Android",
+        "applicationCategory": "CommunicationApplication",
+        "featureList": [
+          "SMS, MMS and group texting",
+          "On-device spam detection with a reviewable Spam folder",
+          "Custom spam keywords, blocked numbers and an allow list",
+          "Optional reporting of spam texts to 7726",
+          "Spaces for saving messages, checklists and reminders",
+          "Scheduled send and dual SIM",
+          "Themes",
+          "No account and no analytics"
+        ]
+      }
+    ]
+  }
+  </script>
   <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="landing.css">
   <link rel="stylesheet" href="site-shell.css">
 </head>
@@ -42,12 +76,12 @@
     <nav class="faq" id="faq" aria-label="Questions">
       <p class="faq-title">How do I&hellip;?</p>
       <div id="faqList"></div>
-      <p class="faq-foot">Everything here runs in your browser. No cookies, no tracking, no account. Your playground is kept only if you ask. <a href="privacy.html">Website privacy</a> · <a href="app-privacy.html">App privacy policy</a></p>
+      <p class="faq-foot">Everything here runs in your browser. No cookies, no tracking, no account. Your playground is kept only if you ask. <a href="privacy.html">Website privacy</a> · <a href="app-privacy.html">App privacy policy</a> · <a href="spam-blocking-texting-app.html">How spam blocking works</a> · <a href="google-messages-alternative.html">Threadwell vs Google Messages</a></p>
     </nav>
 
     <main class="stage" id="stage" tabindex="-1">
       <div id="entry"></div>
-      <noscript><p class="note">The interactive demos need JavaScript. Threadwell itself works without any account or sign in.</p></noscript>
+      <noscript><p class="note">The interactive demos need JavaScript. Threadwell is an SMS and MMS texting app for Android with on-device spam blocking, and it works without any account or sign in. Read <a href="spam-blocking-texting-app.html">how spam blocking works</a> or <a href="google-messages-alternative.html">how it compares with Google Messages</a>.</p></noscript>
     </main>
   </div>
 

@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Spam blocking texting app for Android · Threadwell</title>
+  <meta name="description" content="Threadwell is an Android SMS and MMS app that blocks spam texts on your phone. On-device spam detection, a Spam folder you can review, your own keyword rules, blocked numbers and optional reporting to 7726.">
+  <meta name="theme-color" content="#f4f2eb">
+  <link rel="canonical" href="https://threadwell.github.io/spam-blocking-texting-app.html">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Threadwell">
+  <meta property="og:title" content="A texting app that blocks spam on your phone">
+  <meta property="og:description" content="Threadwell catches spam texts on your Android phone, keeps them out of your inbox, and lets you review anything it flagged.">
+  <meta property="og:url" content="https://threadwell.github.io/spam-blocking-texting-app.html">
+  <meta property="og:image" content="https://threadwell.github.io/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+    .doc h1 { font-size: 36px; line-height: 40px; margin-bottom: 12px; }
+    .doc h2 { font-size: 20px; line-height: 28px; margin: 40px 0 8px; }
+    .doc h3 { font-size: 17px; line-height: 24px; margin: 24px 0 4px; }
+    .doc p, .doc li { color: #c9d6e8; }
+    .doc ul { padding-left: 24px; display: grid; gap: 8px; }
+    .doc .meta { color: var(--muted); font-size: 14px; }
+    .doc .back { display: inline-block; margin-bottom: 24px; }
+    .summary { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 24px; }
+    .summary ul { margin: 8px 0 0; }
+  </style>
+  <link rel="stylesheet" href="site-shell.css">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Spam blocking texting app for Android",
+    "url": "https://threadwell.github.io/spam-blocking-texting-app.html",
+    "isPartOf": { "@type": "WebSite", "name": "Threadwell", "url": "https://threadwell.github.io/" },
+    "about": { "@type": "SoftwareApplication", "name": "Threadwell", "operatingSystem": "Android", "applicationCategory": "CommunicationApplication" },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Threadwell", "item": "https://threadwell.github.io/" },
+        { "@type": "ListItem", "position": 2, "name": "Spam blocking", "item": "https://threadwell.github.io/spam-blocking-texting-app.html" }
+      ]
+    }
+  }
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the content</a>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Threadwell home"><img class="mark" src="assets/mark.svg" alt="" width="32" height="32"><span>Threadwell</span></a>
+    <p class="tag">Help &amp; demos</p>
+  </header>
+  <main class="doc" id="main">
+    <a class="back" href="./">&larr; Back to Threadwell</a>
+    <h1>A texting app that blocks spam on your phone</h1>
+    <p class="meta">Threadwell is an SMS and MMS app for Android. It replaces your phone's default messaging app and screens every text for spam before it reaches your inbox.</p>
+
+    <div class="summary">
+      <strong>In short</strong>
+      <ul>
+        <li>Spam detection runs on your phone. Your messages are not uploaded anywhere to be checked.</li>
+        <li>Likely spam goes to a Spam folder. Texts that only look suspicious stay in your inbox with a warning.</li>
+        <li>You can add your own spam words, block numbers, and always allow senders you trust.</li>
+        <li>Saved contacts are never moved to Spam automatically.</li>
+      </ul>
+    </div>
+
+    <h2>How Threadwell stops spam texts</h2>
+    <p>Every incoming text gets a score from 0 to 100. The score comes from several checks that run on the phone:</p>
+    <ul>
+      <li><strong>An on-device spam model</strong> that reads the wording of the message. It counts most for unknown 10-digit numbers, where scam texts usually come from, and much less for business short codes, so your bank and delivery alerts aren't caught by mistake.</li>
+      <li><strong>Suspicious links</strong>, such as links to raw IP addresses, domains often used for scams, phishing phrases, or a link from someone who isn't in your contacts.</li>
+      <li><strong>Your own spam keywords.</strong> Add a word or phrase in Settings and any text containing it gets flagged.</li>
+      <li><strong>A shared list of known spam</strong> (domains, senders and phrases), downloaded once a day from this website and checked on the phone.</li>
+    </ul>
+    <p>A high score moves the conversation to the <strong>Spam folder</strong>. A middle score keeps it in your inbox and shows a banner that says <strong>This might be spam</strong>, with <strong>Always allow</strong> and <strong>Restore once</strong>.</p>
+
+    <h2>A Spam folder you can actually review</h2>
+    <p>Spam blockers that silently delete texts can lose the one message you were waiting for. Threadwell keeps flagged texts where you can see them:</p>
+    <ul>
+      <li>The Spam folder groups texts by kind: delivery scams, prize and reward scams, phishing, loans, political and survey texts, unknown links, and ones you marked yourself.</li>
+      <li><strong>Not spam</strong> and <strong>Restore</strong> bring a conversation back, and Threadwell learns from your choice.</li>
+      <li>Delete a whole group at once, or have spam deleted automatically after 7 or 30 days.</li>
+      <li>Spam statistics show what was caught over time.</li>
+    </ul>
+
+    <h2>Block numbers and report spam texts</h2>
+    <ul>
+      <li><strong>Block</strong> a sender and their texts are dropped silently. Threadwell uses Android's own blocked numbers list, so the block applies to calls too.</li>
+      <li><strong>Report to 7726</strong>, the carrier spam reporting number, is off by default. Turn it on and Threadwell forwards high-scoring spam for you, or report a single message yourself. Each report is an ordinary text on your plan.</li>
+      <li><strong>Report to the FTC</strong> copies the message details and opens the US Federal Trade Commission's report form.</li>
+    </ul>
+
+    <h2>Private by design</h2>
+    <p>Threadwell has no accounts, no analytics and no developer servers. Spam checks happen on the phone; the only spam-related download is the shared rules list, and nothing about your messages is sent with it. The <a href="app-privacy.html">app privacy policy</a> lists every network connection the app can make.</p>
+
+    <h2>More than a spam filter</h2>
+    <p>Threadwell is a complete texting app: SMS, picture and video messages, group texts, scheduled send, dual SIM, pinned chats and message categories. It also adds Spaces for plans worth keeping, checklists and reminders to come back to a conversation. See <a href="google-messages-alternative.html">how it compares with Google Messages</a>.</p>
+
+    <h2>Questions</h2>
+    <h3>Does Threadwell block spam calls?</h3>
+    <p>No. Threadwell is a texting app. Numbers you block in Threadwell go on Android's blocked list, which your phone app also uses.</p>
+    <h3>Will it hide texts from my contacts?</h3>
+    <p>No. A text from a saved contact can get a warning banner, but it is never moved to Spam on its own.</p>
+    <h3>Does it work with RCS chats?</h3>
+    <p>No. Threadwell sends and receives SMS and MMS. RCS chat messages are handled by a separate system on the phone and don't reach other texting apps.</p>
+    <h3>Where can I get it?</h3>
+    <p>Threadwell is in a closed test on Google Play before it opens to everyone. <a href="./#testers">Become a tester</a>, or <a href="./#spam-rules">try the spam rules demo</a> in your browser.</p>
+  </main>
+</body>
+</html>
