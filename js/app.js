@@ -80,10 +80,10 @@ function route() {
   if (!firstLoad) { $('#stage').scrollTo?.({ top: 0 }); window.scrollTo(0, 0); $('h1, h2', entry)?.focus({ preventScroll: true }); }
   firstLoad = false;
   if (isPlay) playground.focusPending?.();
-  if (raw === 'testers') requestAnimationFrame(() => {     // "Become a tester" links: the home page, at that section
-    const t = $('#testers');
+  if (raw === 'testers' || raw === 'pricing') requestAnimationFrame(() => {     // "Become a tester" / "Pricing" links: the home page, at that section
+    const t = $(`#${raw}`);
     t?.scrollIntoView({ behavior: prefersReducedNow() ? 'auto' : 'smooth' });
-    $('#testers-title')?.focus({ preventScroll: true });
+    $(`#${raw}-title`)?.focus({ preventScroll: true });
   });
 }
 const prefersReducedNow = () => matchMedia('(prefers-reduced-motion: reduce)').matches;

@@ -1151,3 +1151,36 @@ body:not(.landing-page) .top .tag {
 .testers ul { margin: 0; padding-left: 20px; display: grid; gap: 6px; font-size: 15px; line-height: 1.55; color: var(--soft); }
 .testers .addr { color: var(--ink); font-weight: 600; overflow-wrap: anywhere; user-select: all; }
 @media (max-width: 820px) { .testers { grid-template-columns: 1fr; margin: 48px auto 56px; padding: 0 16px; } }
+
+/* Free vs Threadwell Plus (js/home.js #pricing). Copy mirrors the app's SubscribeScreen; the price is set in Play Console. */
+.pricing { scroll-margin-top: 100px; max-width: 1440px; margin: 0 auto 72px; padding: 0 clamp(24px, 5vw, 88px); color: var(--ink); }
+.pricing-intro { display: flex; align-items: flex-end; justify-content: space-between; gap: 32px; margin: 38px 0 30px; }
+.pricing-intro h2 { font-size: clamp(35px, 4.1vw, 56px); line-height: 1.05; letter-spacing: -2px; font-weight: 500; margin: 0; }
+.pricing-intro h2:focus { outline: none; }
+.pricing-intro p { font-size: 14px; line-height: 1.8; color: var(--soft); max-width: 380px; margin: 0; padding-bottom: 4px; }
+.pricing-plans { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.plan { padding: 34px; border-radius: 12px; display: flex; flex-direction: column; min-width: 0; }
+.plan-free { background: #e6ecdf; }
+.plan-plus { background: var(--forest); color: var(--paper); }
+.plan-name { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.plan-plus .plan-name { color: var(--lime); }
+.plan-price { margin: 14px 0 22px; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.plan-price strong { font-size: clamp(40px, 4.4vw, 58px); line-height: 1; font-weight: 500; letter-spacing: -2px; }
+.plan-price span { font-size: 14px; color: var(--soft); }
+.plan-plus .plan-price span, .plan-plus .plan-lead { color: #d6e2d8; }
+.plan-lead { margin: 0 0 10px; font-size: 14px; }
+.plan ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; font-size: 15px; line-height: 1.55; }
+.plan li { position: relative; padding-left: 26px; }
+.plan li::before { content: ""; position: absolute; left: 2px; top: .45em; width: 11px; height: 6px; border-left: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(-45deg); }
+.plan-free li::before { color: #215e4c; }
+.plan-plus li::before { color: var(--lime); }
+.plan-plus b { color: var(--paper); }
+.pricing-fine { margin: 20px 0 0; max-width: 760px; font-size: 13px; line-height: 1.7; color: var(--soft); }
+@media (max-width: 760px) {
+  .pricing { padding: 0 24px; margin-bottom: 52px; }
+  .pricing-intro { display: block; }
+  .pricing-intro h2 { font-size: clamp(30px, 9vw, 39px); letter-spacing: -1px; margin-bottom: 14px; }
+  .pricing-plans { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .plan { padding: 27px; }
+}
+@media (max-width: 480px) { .pricing { padding: 0 16px; } .plan { padding: 22px; } }
