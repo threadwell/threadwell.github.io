@@ -43,7 +43,7 @@
   <main class="doc" id="main">
     <a class="back" href="./">&larr; Back to the questions</a>
     <h1>Threadwell app privacy policy</h1>
-    <p class="meta">Last updated 6 October 2026. This policy covers the Threadwell Android app. For this website, see the <a href="privacy.html">website privacy page</a>.</p>
+    <p class="meta">Last updated 13 November 2026. This policy covers the Threadwell Android app. For this website, see the <a href="privacy.html">website privacy page</a>.</p>
 
     <div class="summary">
       <strong>In short</strong>
@@ -51,6 +51,7 @@
         <li>No accounts, no analytics, no ads and no developer-run servers.</li>
         <li>Your messages and contacts stay on your phone and are never sent to the developer.</li>
         <li>Anything that does reach the internet is listed below, and the optional parts are off until you turn them on.</li>
+        <li>There is no account, so there is nothing to delete on a server. <a href="#delete">How to delete your data</a> explains what to remove on your phone.</li>
       </ul>
     </div>
 
@@ -58,8 +59,9 @@
     <ul>
       <li><strong>Messages and contacts.</strong> Threadwell is a text messaging app. It reads and writes Android's SMS and MMS storage and reads your contacts, on your device only, to show and send conversations. Spam scoring runs on your device.</li>
       <li><strong>Phone state and number.</strong> Optionally read to label SIMs and to recognize your own number in group threads.</li>
-      <li><strong>Calendar.</strong> Read on your device only if you use a calendar widget, to show your events.</li>
-      <li><strong>Location.</strong> Only if you choose to share your location in a conversation, or turn on <em>Use my location</em> for the Weather theme or widget. A shared location goes to the person you choose. Weather uses approximate coordinates.</li>
+      <li><strong>Calendar.</strong> Read on your device only if you turn on the Calendar widget (read only), to show your events, and for the Commute widget if you let it use your next event's location.</li>
+      <li><strong>Location.</strong> Only if you choose to share your location in a conversation, or turn on <em>Use my location</em> for the Weather theme or widget. A shared location goes to the person you choose, as a text message. If you share your live location by text, Threadwell shows a notification while it runs and sends an updated link to that conversation every few minutes until you stop it. Weather uses approximate coordinates.</li>
+      <li><strong>Notifications.</strong> Used to tell you about new messages, reminders and scheduled sends.</li>
       <li><strong>App data.</strong> Settings, drafts, scheduled messages, the picture message retry queue, Spaces and notes, and spam statistics are stored in the app's private storage on your phone.</li>
     </ul>
 
@@ -69,19 +71,35 @@
       <table>
         <thead><tr><th scope="col">Service</th><th scope="col">Feature</th><th scope="col">What is sent</th><th scope="col">When</th></tr></thead>
         <tbody>
+          <tr><th scope="row">Your carrier</th><td>Sending and receiving texts and picture messages</td><td>The messages you send, to the people you send them to, as with any texting app</td><td>When you send a message</td></tr>
           <tr><th scope="row">Open-Meteo</th><td>Weather theme and widget</td><td>A city name once, then approximate coordinates hourly</td><td>Weather is turned on</td></tr>
           <tr><th scope="row">Zippopotam.us</th><td>Weather location</td><td>The 5 digit ZIP code you type, once, to find its coordinates</td><td>You enter a ZIP code</td></tr>
           <tr><th scope="row">ESPN</th><td>Sports widget</td><td>Team IDs</td><td>The widget is turned on</td></tr>
           <tr><th scope="row">Yahoo Finance</th><td>Watchlist widget</td><td>Ticker symbols</td><td>The widget is turned on</td></tr>
-          <tr><th scope="row">GitHub (raw file)</th><td>Spam rule feed</td><td>Nothing. The app downloads a public rules file from this website</td><td>About once a day</td></tr>
-          <tr><th scope="row">The website you link to, and YouTube thumbnails</th><td>Link previews</td><td>A request for the linked page, which shows that website your phone's IP address. Skipped for messages flagged as spam. Local and private addresses are blocked</td><td>Only if you turn on link previews. <strong>Off by default</strong></td></tr>
+          <tr><th scope="row">This website (hosted by GitHub Pages)</th><td>Spam rule feed</td><td>Nothing. The app downloads a public rules file from this website, which shows GitHub your phone's IP address</td><td>About once a day</td></tr>
+          <tr><th scope="row">The website you link to, YouTube and Reddit</th><td>Link previews</td><td>A request for the linked page and its preview image, which shows those websites your phone's IP address. For YouTube and Reddit links the app asks that site for the title and thumbnail instead. Skipped for messages flagged as spam. Local and private addresses are blocked</td><td>Only if you turn on link previews. <strong>Off by default</strong></td></tr>
           <tr><th scope="row">Google (Gemini)</th><td>AI image edit</td><td>The image you choose and your prompt, using your own key</td><td>Only if you add a key and use the feature. <strong>Off by default</strong></td></tr>
           <tr><th scope="row">Unsplash</th><td>Photo backdrops</td><td>Your search terms, using your own key</td><td>When you search for backdrop photos</td></tr>
+          <tr><th scope="row">Google Play</th><td>Threadwell Plus subscription</td><td>The app asks Google Play whether your Google account has the subscription. The purchase itself happens in Google Play</td><td>When you open the app, and when you subscribe</td></tr>
           <tr><th scope="row">Your carrier (7726)</th><td>Spam reporting</td><td>The text of a message the app has confidently classified as spam, sent as an ordinary text message on your plan. It appears in your sent messages</td><td>Only if you turn on automatic reporting, or report a message yourself. <strong>Off by default</strong></td></tr>
         </tbody>
       </table>
     </div>
     <p style="margin-top:12px">These services have their own privacy practices. The app has no analytics, no ad software and no remote crash reporting.</p>
+
+    <h2>Threadwell Plus</h2>
+    <p>Threadwell Plus is an optional yearly subscription sold through Google Play. Google Play handles the payment under <a href="https://policies.google.com/privacy">Google's privacy policy</a>, and Threadwell never sees your card details. The app keeps only a note on your phone of whether you are subscribed. Google gives developers order records for the sales it processes, which the developer uses only for refunds, support and tax. Texting never depends on a subscription.</p>
+
+    <h2>Permissions the app asks for</h2>
+    <ul>
+      <li><strong>SMS and MMS</strong> (send, receive, read, write): to work as your default texting app. Android only lets the default texting app save messages, so Threadwell can't work without them.</li>
+      <li><strong>Contacts</strong>: to show names and photos instead of numbers.</li>
+      <li><strong>Phone</strong> (optional): to label SIMs on dual-SIM phones and recognize your own number.</li>
+      <li><strong>Notifications</strong>: for new messages and reminders.</li>
+      <li><strong>Location</strong> (optional): only when you share your location or use your location for weather.</li>
+      <li><strong>Calendar</strong> (optional, read only): only for the Calendar and Commute widgets.</li>
+      <li><strong>Run at startup</strong>: to put scheduled messages, reminders and picture message retries back after the phone restarts.</li>
+    </ul>
 
     <h2>Your keys</h2>
     <p>Keys you add for optional features (Gemini, Unsplash) are kept in the app's private storage on your phone. They are never included in backups or phone to phone transfers.</p>
@@ -103,8 +121,22 @@
       <li>Uninstalling the app removes its private data. Backup files and exports you saved yourself stay where you put them until you delete them.</li>
     </ul>
 
+    <h2 id="delete">How to delete your data</h2>
+    <p>Threadwell has no accounts and no servers, so the developer holds no copy of your data to delete. Everything is on your phone, and you can remove it yourself:</p>
+    <ul>
+      <li><strong>Threadwell's own data</strong> (settings, drafts, Spaces, notes, saved items, spam history and learning, keys, scheduled messages): open <strong>Settings → Privacy &amp; data → Open app info</strong>, then <strong>Storage → Clear storage</strong>, or uninstall the app.</li>
+      <li><strong>Your messages</strong> are kept in Android's shared message storage, not inside Threadwell, so they stay on the phone if you uninstall. To delete them, long-press a conversation and choose <strong>Move to Trash</strong>, then open Trash and choose <strong>Delete forever</strong> (Trash also deletes conversations by itself after 30 days). Do this before clearing storage or uninstalling: a conversation that is only in Trash comes back if Threadwell's own data is cleared.</li>
+      <li><strong>Backup files and exports</strong> you made stay wherever you saved them. Delete them in your file manager.</li>
+      <li><strong>Messages already sent</strong>, including spam reports to 7726, have reached your carrier and the recipient and can't be recalled.</li>
+      <li><strong>A Threadwell Plus subscription</strong> is managed in Google Play: cancel it under <strong>Play Store → Payments &amp; subscriptions → Subscriptions</strong>. Your purchase history is kept by Google.</li>
+    </ul>
+    <p>If you have emailed support and want those emails deleted, write to the address below and they will be deleted.</p>
+
+    <h2>Children</h2>
+    <p>Threadwell is not directed at children under 13.</p>
+
     <h2>Sharing and retention</h2>
-    <p>The developer collects nothing and shares nothing. Data stays on your device until you delete it or uninstall the app. Spam statistics are removed automatically as they age.</p>
+    <p>The developer collects nothing from the app and shares nothing. Data stays on your device until you delete it or uninstall the app. Spam statistics are removed automatically as they age.</p>
 
     <h2>Changes</h2>
     <p>If this policy changes, the date at the top will change with it.</p>
