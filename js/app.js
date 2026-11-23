@@ -23,7 +23,7 @@ import editPhoto from './demos/edit-photo.js';
 import dateJump from './demos/date-jump.js';
 
 const GROUPS = [
-  { name: 'Coming in the next update', items: [categories, pinned, editPhoto, dateJump] },
+  { name: 'New in Threadwell', items: [categories, pinned, editPhoto, dateJump] },
   { name: 'Messaging', items: [layout, textsize, photos] },
   { name: 'Look and feel', items: [themes] },
   { name: 'Spam protection', items: [spam] },

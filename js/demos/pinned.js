@@ -62,15 +62,15 @@ const move = (api, id, d) => {
 export default {
   id: 'pinned-chats',
   title: 'Keep pinned chats in my own order, or show them as photos',
-  answer: 'Coming in the next update. Pinned chats can stay exactly where you put them instead of jumping around when a new text arrives, and they can show as a row of contact photos at the top of your inbox.',
+  answer: 'Pinned chats can stay exactly where you put them instead of jumping around when a new text arrives, and they can show as a row of contact photos at the top of your inbox.',
   steps: [
     'Tap the <b>Settings</b> gear, then open <b>Messaging &amp; notifications</b>.',
     'Under <b>Pinned conversations</b>, pick <b>Photos</b> or <b>Rows with previews</b>, and pick <b>My order</b> so pins stay put. Then go back.',
     'Press and hold a pinned chat and choose <b>Arrange pinned chats</b>. (Here, tap it.)',
-    'Use ▲ and ▼ to move chats, then tap <b>Done</b>. Every tap is saved straight away.',
+    'Use ▲ and ▼ to move chats, then tap <b>Done</b>. Every change is saved straight away. (In the app you can also press and hold a chat in this list and drag it.)',
     'Try the <b>Demo</b> button: with My order, a new text no longer moves your pins.',
   ],
-  note: '<strong>Your choice, nothing forced.</strong> Both settings start on the old behavior (Rows with previews, Newest message first), so nothing changes until you pick. A new pin goes to the end of your order. The same order is used in the Threadwell view rail, and you can arrange pins from there too.',
+  note: '<strong>Your choice, nothing forced.</strong> Both settings start on the old behavior (Rows with previews, Newest message first), so nothing changes until you pick. A new pin goes to the end of your order. The same order is used in the Threadwell view rail, and you can arrange pins from there too. Favorites has been folded into Pinned: if you had favorites, the Favorites filter offers <b>Pin these instead</b>.',
   next: [{ id: 'message-categories', label: 'Sort messages into categories' }, { id: 'layout', label: 'Switch between Traditional and Threadwell view' }],
   start: 'home',
   state: () => ({ threads: structuredClone(BASE), order: [...PINNED], style: 'rows', sort: 'recent', sheet: '', arranging: false, nextFrom: 'crew', pulse: '' }),
