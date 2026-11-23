@@ -1,7 +1,8 @@
 // Verified against MessageCategories.kt (five categories and the sorting rules), CategoryTabs.kt (All + one chip per
 // category with the unread count, "Move “name” to", "Sort automatically"), ConversationListScreen.kt (tabs above the
 // list, "Move to category" in the long-press menu only while categories are on) and SettingsScreen.kt
-// (Messaging → "Message categories" switch, off by default). Traditional inbox only in this version.
+// (Messaging → "Message categories" switch, off by default). 0.2.5: ConversationFolderPage (category page, both views)
+// and Threadwell view rail filters CAT:<key>; the tutorial still shows the Traditional inbox.
 import { statusbar, appbar, settingsHome, settingsBody, toggle, caption } from '../phone-ui.js';
 import { esc } from '../core.js';
 import { inboxHeader, pressRow, actionSheet } from '../news-ui.js';
@@ -51,14 +52,14 @@ function moveDialog(s) {
 export default {
   id: 'message-categories',
   title: 'Sort messages into Personal, Money, Codes, Updates and Promotions',
-  answer: 'Coming in the next update. Turn on Message categories and tabs appear above your conversations. Codes, bank alerts, deliveries and sales sort themselves, and people you know stay in Personal.',
+  answer: 'Turn on Message categories and tabs appear above your conversations. Codes, bank alerts, deliveries and sales sort themselves, and people you know stay in Personal.',
   steps: [
     'Tap the <b>Settings</b> gear, then open <b>Messaging &amp; notifications</b>.',
     'Turn on <b>Message categories</b> and go back.',
     'Tap a tab such as <b>Codes</b> or <b>Money</b>. The number on a tab counts its unread conversations; <b>All</b> shows everything.',
     'Something in the wrong tab? Press and hold the conversation, choose <b>Move to category</b> and pick one. (Here, tap the row.)',
   ],
-  note: '<strong>Sorting happens on your phone.</strong> It uses who sent the message and what the latest one says. Nothing is uploaded and no AI is involved. Saved contacts and group chats always stay in Personal. A conversation you moved stays put until you choose <b>Sort automatically</b>. In this version the tabs are in the Traditional inbox.',
+  note: '<strong>Sorting happens on your phone.</strong> It uses who sent the message and what the latest one says. Nothing is uploaded and no AI is involved. Saved contacts and group chats always stay in Personal. A conversation you moved stays put until you choose <b>Sort automatically</b>. You can also make your own categories, such as Work or Family. Each category opens as its own page with search and <b>Select</b> (Mark read, Move to category, Archive, Move to Trash), and in Threadwell view the categories appear as filters in the conversation list.',
   next: [{ id: 'pinned-chats', label: 'Next: Keep pinned chats in your own order' }],
   start: 'home',
   state: () => ({ on: false, tab: '', moved: {}, sheet: '', moving: '', pulse: '' }),

@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Threadwell features: Android texting with categories, app lock and spam protection</title>
+  <meta name="description" content="Everything Threadwell does: message categories, pinned chats you can drag into order, Spaces for saved messages, app lock and private notifications, on-device spam protection, text formatting and effects, and both an inbox and Threadwell view.">
+  <meta name="theme-color" content="#f4f2eb">
+  <link rel="canonical" href="https://threadwell.github.io/features.html">
+  <link rel="icon" href="assets/mark.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="Threadwell">
+  <meta property="og:title" content="Threadwell features">
+  <meta property="og:description" content="Message categories, pinned chats, Spaces, app lock, private notifications, on-device spam protection and more, in an Android texting app with no account.">
+  <meta property="og:url" content="https://threadwell.github.io/features.html">
+  <meta property="og:image" content="https://threadwell.github.io/assets/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .doc { max-width: 760px; margin: 0 auto; padding: 48px 16px 80px; }
+    .doc h1 { font-size: 36px; line-height: 40px; margin-bottom: 12px; }
+    .doc h2 { font-size: 24px; line-height: 30px; margin: 48px 0 8px; }
+    .doc h3 { font-size: 18px; line-height: 26px; margin: 28px 0 6px; }
+    .doc p, .doc li { color: #c9d6e8; }
+    .doc ul, .doc ol { padding-left: 24px; display: grid; gap: 8px; }
+    .doc .meta { color: var(--muted); font-size: 14px; }
+    .doc .back { display: inline-block; margin-bottom: 24px; }
+    .summary { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-top: 24px; }
+    .summary ul { margin: 8px 0 0; }
+    .doc h2[id] { scroll-margin-top: 96px; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px 16px; padding: 0; list-style: none; margin-top: 16px; }
+    .new { display: inline-block; margin-left: 8px; padding: 1px 8px; border-radius: 999px; font-size: 12px; font-weight: 700; vertical-align: middle; background: #d9ec8a; color: #153c35; }
+  </style>
+  <link rel="stylesheet" href="site-shell.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Threadwell", "item": "https://threadwell.github.io/" },
+    { "@type": "ListItem", "position": 2, "name": "Features", "item": "https://threadwell.github.io/features.html" }
+  ]
+}
+  </script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to the content</a>
+  <header class="top">
+    <a class="brand" href="./" aria-label="Threadwell home"><img class="mark" src="assets/mark.svg" alt="" width="32" height="32"><span>Threadwell</span></a>
+    <p class="tag">Features</p>
+  </header>
+  <main class="doc" id="main">
+    <a class="back" href="./">&larr; Back to Threadwell</a>
+    <h1>What Threadwell does</h1>
+    <p class="meta">Updated November 2026, for version 0.2.5, now with testers on Google Play.</p>
+    <p>Threadwell is an SMS and MMS texting app for Android. It becomes your default texting app, works with your own carrier plan, and needs no account. Your messages stay on your phone.</p>
+
+    <div class="summary">
+      <strong>New in this version</strong>
+      <ul>
+        <li>Message categories open as their own page, with search and bulk actions.</li>
+        <li>Spaces, Thread insights and the Links, Attachments and Important tabs now work in the traditional inbox too.</li>
+        <li>Press and hold to drag pinned chats into your own order.</li>
+        <li>Delete several messages at once, plus underline and text effects.</li>
+        <li>Lock a conversation and choose the sending SIM from either view.</li>
+        <li>Link previews explain why one couldn't load, with Try again.</li>
+        <li>Safer retries for scheduled and failed messages.</li>
+      </ul>
+    </div>
+
+    <ul class="toc" aria-label="On this page">
+      <li><a href="#views">Two views</a></li>
+      <li><a href="#organize">Organize</a></li>
+      <li><a href="#writing">Write and send</a></li>
+      <li><a href="#privacy">Privacy and locks</a></li>
+      <li><a href="#spam">Spam protection</a></li>
+      <li><a href="#look">Look and feel</a></li>
+      <li><a href="#about">About and updates</a></li>
+    </ul>
+
+    <h2 id="views">Two ways to see your messages</h2>
+    <p>Keep a familiar inbox (the traditional view), or switch to Threadwell view, where your conversations, Spaces and saved items sit side by side. Threadwell view works especially well on a tablet or an unfolded foldable. Change it any time in Settings → Messaging &amp; notifications → Layout.</p>
+    <p>The two views share the same features. In this version Spaces, Thread insights, Move to category, conversation locks and Send from are available in both. <a href="./#layout">See both views</a>.</p>
+
+    <h2 id="organize">Keep things organized</h2>
+    <h3>Message categories <span class="new">New page</span></h3>
+    <p>Turn on <strong>Message categories</strong> and tabs appear above your conversations: Personal, Money, Codes, Updates and Promotions. Sorting happens on your phone, from who sent the message and what the latest one says. Saved contacts and group chats stay in Personal. You can make your own tabs, such as Work or Family, with sorting words, and move any conversation with <strong>Move to category</strong>.</p>
+    <p>Each category now opens as its own page. Search the list, or tap <strong>Select</strong> to mark read, mark unread, move, archive or move to Trash in one go. Categories are off by default. <a href="./#message-categories">Try it</a>.</p>
+
+    <h3>Pinned chats, in your order <span class="new">New</span></h3>
+    <p>Pin the conversations you open most. Keep them sorted by the newest message, or choose <strong>Arrange pinned chats</strong> and press and hold a chat to drag it where you want it (the up and down buttons still work too). Pins can show as rows or as a row of photos. Favorites has been folded into Pinned: if you had favorites, one tap on <strong>Pin these instead</strong> moves them over. <a href="./#pinned-chats">Try it</a>.</p>
+
+    <h3>Spaces and Threadmarks</h3>
+    <p>Save the part of a conversation worth keeping into a Space, such as "Weekend away", next to its checklist and notes. Mark something <strong>Come back to this</strong> and it waits in Threads to Tend with a reminder. Spaces now open from the traditional inbox too, for one conversation or all of them. <a href="./#threadmarks">Try it</a>.</p>
+
+    <h3>Links, Attachments and Important <span class="new">Both views</span></h3>
+    <p>Every conversation has tabs for every shared link, every photo and file, and the messages you marked Important. Tap an Important message to open it in the conversation. <strong>Thread insights</strong> shows a timeline, who's talking, messages per day and the busiest time of day.</p>
+
+    <h3>Find it again</h3>
+    <ul>
+      <li>Search with sections for Messages, Photos, Videos and Links.</li>
+      <li>Go to the first message, or to any date, in a long conversation. <a href="./#go-to-date">Try it</a>.</li>
+      <li>Mute, archive, and a Trash you can restore from.</li>
+    </ul>
+
+    <h2 id="writing">Write and send</h2>
+    <h3>Formatting and text effects <span class="new">New</span></h3>
+    <p>Select text in the box and the formatting bar offers <strong>bold</strong>, <em>italic</em>, strikethrough and, new, underline. Texts are plain text, so the marks (*bold*, _italic_, ~strike~, __underline__) travel as you typed them and other phones see the marks.</p>
+    <p>Text effects (Big, Small, Shake, Nod, Ripple, Bloom and Jitter) are shown on your phone only. Whisper and Shout let you drag the Send button up or down to send a message bigger or smaller on your screen. Screen effects play balloons, confetti or fireworks for a fresh "Happy birthday", "Congratulations" or "Happy New Year", and can be turned off.</p>
+
+    <h3>Select several messages <span class="new">Delete added</span></h3>
+    <p>Press and hold a message and choose <strong>Select messages</strong>. Copy them, forward them, save them to a Space, or delete them. Deleting asks first, because it can't be undone.</p>
+
+    <h3>Send on your terms</h3>
+    <ul>
+      <li><strong>Undo send</strong>, with <strong>Edit</strong> to change a text before it goes out.</li>
+      <li><strong>Scheduled send</strong>. If a scheduled or undo-able send was interrupted, Threadwell waits for you to check before trying again, so nothing goes out twice by surprise.</li>
+      <li>When it's unclear whether a picture message went through, it says <strong>Send status unknown</strong> instead of sending it again.</li>
+      <li>Edit a photo or video in your phone's editor before sending. Long videos are shrunk to fit, or split into a few texts.</li>
+      <li>Drafts, a signature, @mentions in groups and tapback reactions.</li>
+    </ul>
+
+    <h3>Choose which SIM sends <span class="new">Both views</span></h3>
+    <p>On a dual-SIM phone, pick <strong>Send from</strong> for each conversation, from the conversation menu or the Threadwell view menu. If the SIM you chose has been removed or turned off, Threadwell never switches to another one quietly. It asks you, and your draft is kept.</p>
+
+    <h3>Link previews, only if you want them</h3>
+    <p>Link previews are <strong>off by default</strong>. If you turn them on, your phone fetches the title and image straight from the linked website. There is no Threadwell server in between, but the website you link to can see your phone opened it. Previews are skipped for messages flagged as spam, and now say why one couldn't load, with Try again where that can help. Links to a photo show the photo.</p>
+
+    <h3>Send a large file (test)</h3>
+    <p>Send a big video or file to another phone running Threadwell, directly from phone to phone, with no server or relay. It's a test feature, and both people turn on receiving in Settings first.</p>
+
+    <h2 id="privacy">Privacy and locks</h2>
+    <h3>App lock</h3>
+    <p>In Settings → <strong>Lock &amp; notification privacy</strong>, turn on <strong>Lock Threadwell</strong> to ask for a PIN, or a fingerprint or face on Android 10 and newer. Choose how long Threadwell can sit in the background before it asks again. It always asks after a restart.</p>
+    <h3>Private notifications</h3>
+    <p>Choose what a new-message notification shows:</p>
+    <ul>
+      <li><strong>Show sender and message</strong>.</li>
+      <li><strong>Show sender only</strong>. Reply still works.</li>
+      <li><strong>Hide sender and message</strong>. Notifications only say "New message".</li>
+    </ul>
+    <h3>Lock a single conversation <span class="new">Both views</span></h3>
+    <p>With app lock on, you can lock one conversation with the same PIN. Its preview reads "Locked conversation", it's left out of search, and its notifications show no sender or message. The lock also covers any duplicate copies of the same conversation. Lock or remove a lock from the conversation menu in either view.</p>
+    <h3>Local first</h3>
+    <p>No account, no analytics and no cloud copy of your messages. Back up everything to a file you keep, with an optional password. Read the <a href="app-privacy.html">app privacy policy</a> for every connection the app can make.</p>
+
+    <h2 id="spam">Spam protection</h2>
+    <p>Every incoming text is checked on your phone. Likely spam waits in the Spam folder, grouped into tabs like Delivery scam, Prize / reward and Phishing. Texts that only look suspicious stay in your inbox with a warning.</p>
+    <ul>
+      <li><strong>Not spam</strong> moves a conversation back to your inbox. New messages from it are still checked.</li>
+      <li><strong>Always allow</strong> stops checking that conversation.</li>
+      <li>The Spam screens offer the same choices, in the same order, in both views.</li>
+      <li>Your own spam words, blocked numbers and an allow list.</li>
+      <li>Forwarding spam to 7726 is optional and off by default.</li>
+    </ul>
+    <p><a href="spam-blocking-texting-app.html">How spam protection works</a> · <a href="./#spam-rules">Try it</a></p>
+
+    <h2 id="look">Look and feel</h2>
+    <ul>
+      <li>Themes, from calm colors to animated scenes, each with a full preview before you apply it. <a href="./#themes">Try it</a>.</li>
+      <li>Photo groups as a stack, cascade, list, carousel or ring.</li>
+      <li>Optional in-app widgets such as weather, calendar and countdowns. <a href="./#widgets">Try it</a>.</li>
+    </ul>
+
+    <h2 id="about">About and updates</h2>
+    <p>Settings → <strong>About Threadwell</strong> shows your version and where it was installed from. <strong>Check for updates</strong> runs only when you tap it, and asks the Google Play app on your phone. Threadwell never nags you to update or to rate it.</p>
+
+    <h2>Get Threadwell</h2>
+    <p>Threadwell is in a closed test on Google Play before it opens to everyone. <a href="./#testers">Become a tester</a>, or <a href="./#explore">try the playground</a> in your browser first. It runs on sample conversations and sends nothing.</p>
+    <p class="meta"><a href="help.html">How-to guides</a> · <a href="google-messages-alternative.html">Compared with Google Messages</a> · <a href="app-privacy.html">App privacy</a></p>
+  </main>
+</body>
+</html>

@@ -1092,6 +1092,15 @@ body:not(.landing-page) .top .tag {
 .wn-rows span { display: grid; grid-template-columns: 34px 1fr; column-gap: 10px; align-items: center; padding: 6px 0; }
 .wn-rows i { grid-row: span 2; font-style: normal; width: 34px; height: 34px; border-radius: 50%; background: #1d3854; display: grid; place-items: center; font-weight: 700; }
 .wn-rows b { font-size: 14px; }
+.wn-head p a { font-weight: 700; text-underline-offset: 3px; }
+.wn-also { margin: 16px 0 0; font-size: 15px; line-height: 1.6; }
+.wn-also a { font-weight: 600; text-underline-offset: 3px; }
+.wn-pins .wn-lift i { outline: 2px solid #2ad4c8; transform: translateY(-6px) scale(1.08); box-shadow: 0 8px 14px rgba(0,0,0,.35); }
+.wn-note { display: grid; gap: 8px; align-content: start; }
+.wn-notif { display: grid; gap: 2px; background: #1d3854; border-radius: 10px; padding: 6px 10px; }
+.wn-notif b { font-size: 11px; opacity: .75; font-weight: 600; }
+.wn-pin { justify-self: center; letter-spacing: .12em; border: 1px solid #2ad4c8; border-radius: 999px; padding: 2px 12px; }
+.wn-big { font-size: 16px; font-weight: 700; }
 @media (max-width: 900px) { .wn-grid { grid-template-columns: repeat(2, 1fr); } .wn-card { grid-template-columns: 1fr; padding: 28px; } }
 @media (max-width: 520px) { .wn { padding: 0 16px; margin-top: 40px; } .wn-grid { grid-template-columns: 1fr; } .wn-card h2 { font-size: 28px; } }
 @media (prefers-reduced-motion: reduce) { .wn-item { transition: none; } .wn-item:hover { transform: none; } }
